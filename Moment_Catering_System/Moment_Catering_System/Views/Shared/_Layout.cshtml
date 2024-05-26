@@ -1,0 +1,223 @@
+﻿@using Moment_Catering_System.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moment</title>
+
+    @Styles.Render("~/Content/css")
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link href="~/assets/img/favicon.png" rel="icon">
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="stylesheet" href="~/fontawsome/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/admin/plugins/fontawesome-free/css/fontawesome.min.css">
+
+    <!-- Template Main CSS File -->
+    <link href="~/Scriptsassets/css/style.css" rel="stylesheet">
+   
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css" rel="stylesheet">
+
+
+    @RenderSection("css", required: false)
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @RenderSection("scripts", required: false)
+
+    <header id="header" class="header fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+            <a href="/Home/Index" class="logo d-flex align-items-center" style="text-decoration:none">
+                <img src="~/Images/catering.png" alt="" style="margin-bottom:11px">
+                <span>Moment</span>
+            </a>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto" href="/Home/Index">Home</a></li>
+                    <li><a class="nav-link scrollto" href="/OrderManagement/DisplayMenu">Menus</a></li>
+
+                    @if (LoginInfo.UserID != null && !LoginInfo.UserID.StartsWith("S"))
+                    {
+                        <li>
+                            <a class="nav-link scrollto" href="/CustomerMaintenance/CustomerOrderList">Your Orders</a>
+                        </li>
+
+                    }
+                    <li><a class="nav-link scrollto" href="/PaymentMaintenance/CustomerPaymentList">Payment</a></li>
+
+                    <li class="dropdown">
+                        <a href="/CustomerMaintenance/RegisterCustomer" style="text-decoration:none"><span>Register</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+
+                            <li><a href="/CustomerMaintenance/Login" style="text-decoration:none">Login</a></li>
+                            <li><a href="/StaffMaintenance/Login" style="text-decoration:none">Admin Login</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="/Home/About">About us</a></li>
+                    <li class="dropdown">
+                        <a href="" style="text-decoration:none"><span>Help</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="/Home/FAQ" style="text-decoration:none">FAQ</a></li>
+                            <li><a href="/Home/Contact" style="text-decoration:none">Contact us</a></li>
+                            <li><a href="/Home/Feedback" style="text-decoration:none">Feedback</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="getstarted scrollto" href="/OrderManagement/DisplayMenu" style="text-decoration:none">
+                            Order Now
+                            <i class="bi bi-cart-fill" style="font-size:19px;"></i>
+                        </a>
+                    </li>
+
+                    <li class="dropdown" id="login">
+                        <a href="" style="text-decoration:none"> @LoginInfo.DisplayName</a>
+                        <ul>
+                            <li><a href="/CustomerMaintenance/EditCustomer?customerID=@LoginInfo.UserID" style="text-decoration:none">Your Account</a></li>
+                            <li><a href="#" style="text-decoration:none" onclick="confirmLogout()">Logout</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="/OrderManagement/ShowNotification"><i class="bi bi-bell-fill" style="font-size:19px;"></i></a></li>
+
+                </ul>
+                <script>
+                    function confirmLogout() {
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "Log out of your account!",
+                            icon: "question",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, Log out!"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Perform logout action
+                                window.location.href = "/CustomerMaintenance/Logout";
+                            }
+                        });
+                    }
+                </script>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+        </div>
+    </header>
+</head>
+<body>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    <script src="~/Scripts/jquery-1.10.1.intellisense.js"></script>
+    <script src="~/Scripts/jquery-1.10.1.js"></script>
+    <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/script.js"></script>
+
+    <script src="~/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/assets/vendor/aos/aos.js"></script>
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/php-email-form/validate.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="~/assets/js/main.js"></script>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-lg-5 col-md-12 footer-info">
+                        <a href="index.html" class="logo d-flex align-items-center" style="text-decoration:none">
+                            <img src="~/Images/catering.png" alt="" style="margin-bottom:11px">
+                            <span>Moment</span>
+                        </a>
+                        <br />
+                        <div class="social-links mt-3">
+
+                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-6 footer-links">
+                        <h4>Useful Links</h4>
+                        <ul>
+                            <li><i class="bi bi-chevron-right"></i> <a href="Home/Index">Home</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="Home/About">About us</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="OrderManagement/DisplayMenu">Services</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-6 footer-links">
+                        <h4>Our Packages</h4>
+                        <ul>
+                            <li><i class="bi bi-chevron-right"></i> <a href="OrderManagement/DisplayMenu">Mini Buffet</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="OrderManagement/DisplayMenu">Classic Buffet</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="OrderManagement/DisplayMenu">Premium Buffet</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                        <h4>Contact Us</h4>
+                        <p>
+                            A108 Adam Street <br>
+                            Victoria, <br>
+                            Myanmar <br><br>
+                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Email:</strong> moment@111.com<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Moment</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+</body>
+</html>

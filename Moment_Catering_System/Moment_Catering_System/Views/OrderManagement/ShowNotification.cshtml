@@ -1,0 +1,48 @@
+﻿
+
+<section class="section-50">
+    <div class="container">
+        @{
+            ViewBag.Title = "Notification";
+
+        }
+        <h3 class="text-color">Notifications <i class="bi bi-bell-fill"></i></h3>
+
+
+        @if (ViewBag.FilteredList != null && ViewBag.FilteredList.Count > 0)
+        {
+            foreach (var data in ViewBag.FilteredList)
+            {
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h4 class="text-color">Order @data.Status</h4>
+                        <p>Your order, ORDERID- @data.OrderID, was @data.Status d.</p>
+                        <p>Thank you for joining with us. We will provide detailed information via email.</p>
+                        <p>Best Regards, <br />Moment</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p><i class="bi bi-emoji-frown"></i> No notifications to display.</p>
+        }
+
+
+    </div>
+</section>
+<style>
+    .text-color {
+        color: #e44c33;
+    }
+
+    .card {
+        padding: 25px;
+        background-color: #FAF8F5;
+        border-radius: 15px;
+    }
+
+    h4 {
+        text-transform: uppercase
+    }
+</style>

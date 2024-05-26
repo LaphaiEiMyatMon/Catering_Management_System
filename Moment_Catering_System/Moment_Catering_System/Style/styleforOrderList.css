@@ -1,0 +1,84 @@
+﻿
+
+
+.text-color {
+    color: #e44c33
+}
+
+.plegend {
+    font-size: 15px;
+}
+
+.pfieldset {
+    border: solid 1px rgb(211, 211, 211);
+    padding:3px;
+    border-radius: 2px;
+}
+
+.form-control:focus {
+    box-shadow: #F7971C;
+    border: 2px solid #F7971C
+}
+
+.list-btn {
+    background-color: #F7971C;
+    width: auto;
+    height: auto;
+    color: #fff;
+    padding: 7px 7px 7px 7px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid #F7971C;
+    border-radius: 4px;
+}
+
+    .list-btn:hover {
+        border: 2px solid #e44c33;
+        background-color: #e44c33;
+        color: #fff;
+    }
+
+.btn{
+    margin-left:15px;
+}
+
+input[type="radio"]:checked {
+    background-color: #F7971C;
+    border: 2px solid #e44c33;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: aliceblue
+}
+
+table td:hover {
+    background-color: #f7971c; /* Change background color to #F7971C */
+    color: white; /* Change font color to white */
+}
+
+table th:hover {
+    background-color: #f7971c; /* Change background color to #F7971C */
+    color: white; /* Change font color to white */
+}
+
+a {
+    color: #212529;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: inherit;
+       
+    }

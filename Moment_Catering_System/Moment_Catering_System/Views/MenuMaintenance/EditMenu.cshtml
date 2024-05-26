@@ -1,0 +1,58 @@
+﻿@model Moment_Catering_System.Models.MenuMaintenance
+
+@{
+    ViewBag.Title = "EditMenu";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="EditMenu" method="post" enctype="multipart/form-data" id="EditForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Edit Menu</h5>
+            @Html.HiddenFor(model => model.MenuEntity.MenuID)
+
+            <img src="@Model.MenuEntity.Url" alt="Profile Picture" class="image-size" width="100" height="100" />
+
+            @Html.HiddenFor(model => model.MenuEntity.MenuID)
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Menu ID</span></label>
+                @Html.TextBoxFor(model => model.MenuEntity.MenuID, new { @class = "form-control name-textbox", placeholder = "", @readonly = "readonly" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Menu Name</span></label>
+                @Html.TextBoxFor(model => model.MenuEntity.MenuName, new { @class = "form-control name-textbox", placeholder = "Enter Menu Name", required = "required" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Min Pax</span></label>
+                @Html.TextBoxFor(model => model.MenuEntity.MinPax, new { @class = "form-control name-textbox", placeholder = "Enter Min Pax", type = "number", min = 0, required = "required" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Unit Price $</span></label>
+                @Html.TextBoxFor(model => model.MenuEntity.UnitPrice, new { @class = "form-control name-textbox", placeholder = "Enter Unit Price $", type = "number", min = 0, required = "required" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">No Of Course</span></label>
+                @Html.TextBoxFor(model => model.MenuEntity.NoOfCourse, new { @class = "form-control name-textbox", placeholder = "Enter No Of Course", type = "number", min = 0, required = "required" })
+            </div>
+
+            <div class="pt-4">
+
+                @Html.TextBoxFor(model => model.MenuEntity.ImageFile, new { @class = "form-control name-textbox", type = "file" })
+            </div>
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="MenuList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" id="Update">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Apply styles to the file input */
+    .form-control.name-textbox[type="file"] {
+        padding-bottom: 35px; /* Adjust the padding as needed */
+    }
+</style>

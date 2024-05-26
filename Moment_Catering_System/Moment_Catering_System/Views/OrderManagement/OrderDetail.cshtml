@@ -1,0 +1,361 @@
+﻿@model Moment_Catering_System.Models.OrderManagement
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderDetail.css" rel="stylesheet" />
+
+
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container" style="max-width:1300px">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                @*<h4 class="text-color">Order Detail</h4>*@
+
+                                <div class="row">
+                                    <div class="col-7">
+                                        <table cellpadding="10">
+
+                                            <tr><td class="text-color">Order Info</td>  </tr>
+                                            <tr>
+                                                <td>OrderID</td>
+                                                <td>@Html.TextBoxFor(model => model.OrderEntity.OrderID, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                                <td>Selected Menu:</td>
+                                                <td>@Html.TextBoxFor(model => model.OrderEntity.MenuEntity.MenuName, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>Status</td>
+
+                                                <td>@Html.TextBoxFor(model => model.OrderEntity.Status, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                                <td>Selected Pax:</td>
+                                                <td>@Html.TextBoxFor(model => model.OrderEntity.DishQuantity, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-4">
+                                        <table cellpadding="10">
+                                            <tr><td class="text-color">Extra Dish Info</td>  </tr>
+                                            <tr style="background-color:aliceblue">
+                                                <td>Dish Name</td>
+                                                <td>Qty</td>
+                                            </tr>
+
+                                            @foreach (var data in Model.ExtraDishList)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => data.DishName)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.Qty)</td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <table cellpadding="10">
+                                    <tr><td class="text-color">Customer Info</td></tr>
+                                    <tr>
+                                        <td>Customer ID:</td>
+
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.CustomerID, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                        <td>First Name:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.CustomerEntity.FirstName, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                        <td>Last Name:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.CustomerEntity.LastName, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.CustomerEntity.Email, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                        <td>Address:</td>
+                                        <td>@Html.TextAreaFor(model => model.OrderEntity.CustomerEntity.Address, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                    </tr>
+                                </table><hr />
+                                <table cellpadding="10">
+                                    <tr><td class="text-color">Delivery Info</td></tr>
+                                    <tr>
+                                        <td>Delivery Date:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.Date, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                        <td>Delivery Time:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.DeliveryTime, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                        <td>Ph No:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.CustomerEntity.PhoneNo, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery Address:</td>
+                                        <td>@Html.TextAreaFor(model => model.OrderEntity.DeliveryAddress, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                        <td>Note:</td>
+                                        <td>@Html.TextAreaFor(model => model.OrderEntity.Note, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                    </tr>
+                                </table> <hr />
+                                <table cellpadding="10">
+                                    <tr><td class="text-color">Payment Info</td></tr>
+                                    <tr>
+                                        <td>Selected Payment Method:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.PaymentMethodEntity.PaymentMethod, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                                        <td>Total Amount $:</td>
+                                        <td>@Html.TextBoxFor(model => model.OrderEntity.TotalAmount, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+                                    </tr>
+                                </table>
+                                <hr />
+                                <form action="/OrderManagement/UpdateOrder" method="post" id="EditForm">
+                                    <table cellpadding="10">
+                                        @Html.HiddenFor(model => model.OrderEntity.OrderID)
+                                        @Html.HiddenFor(model => model.OrderEntity.MenuID)
+                                        @Html.HiddenFor(model => model.OrderEntity.CustomerID)
+                                        @Html.HiddenFor(model => model.OrderEntity.DeliveryDate)
+                                        @Html.HiddenFor(model => model.OrderEntity.DeliveryTime)
+                                        @Html.HiddenFor(model => model.OrderEntity.DeliveryAddress)
+                                        @Html.HiddenFor(model => model.OrderEntity.Note)
+                                        @Html.HiddenFor(model => model.OrderEntity.DishQuantity)
+                                        @Html.HiddenFor(model => model.OrderEntity.Discount)
+                                        @Html.HiddenFor(model => model.OrderEntity.TotalAmount)
+                                        @Html.HiddenFor(model => model.PaymentEntity.PaymentID)     
+                                        @Html.HiddenFor(model => model.OrderEntity.CreatedAt)
+                                        @Html.HiddenFor(model => model.OrderEntity.CreatedBy)
+
+                                        <tr>
+                                            <td class="text-color">Action</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "approve", new { id = "rdoApprove" })
+                                                <label for="rdoApprove">Approve</label>
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "cancel", new { id = "rdoCancel" })
+                                                <label for="rdoCancel">Cancel</label>
+                                            </td>
+                                            <td>
+                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "reject", new { id = "rdoReject" })
+                                                <label for="rdoReject">Reject</label>
+                                            </td>
+                                        </tr>
+
+                                        <tr id="approve">
+                                            <td><button type="submit" class="btn btn-success" id="btnApprove">Approve</button></td>
+                                        </tr>
+
+                                        <tr id="cancel">
+                                            <td></td>
+                                            <td> @Html.TextAreaFor(model => model.OrderEntity.CancelReason, new { @id = "cancelReason", @class = "form-control", placeholder = "Write cancel reason", required = "required", type = "text" })</td>
+                                            <td><button type="submit" class="btn btn-warning" id="btnCancel">Cancel</button></td>
+                                        </tr>
+
+                                        <tr id="reject">
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                @Html.TextAreaFor(model => model.OrderEntity.RejectReason, new { @id = "rejectReason", @class = "form-control", placeholder = "Write reject reason", required = "required", type="text" })
+                                            </td>
+                                            <td><button type="submit" class="btn btn-danger" id="btnReject">Reject</button></td>
+                                        </tr>
+
+                                    </table>
+                                </form>
+
+                                <hr />
+                                <a href="OrderList" class="cancel-btn" style="float:right;width:120px;padding-top:7px">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#reject').hide();
+        $('#approve').hide();
+        $('#cancel').hide();
+
+        $('#rdoApprove').on("click", function () {
+            $('#approve').show();
+
+            $('#reject').hide();
+            $('#reject textarea').removeAttr('required');
+            $('#reject textarea').val('');
+
+            $('#cancel').hide();
+            $('#cancel textarea').removeAttr('required');
+            $('#cancel textarea').val('');
+        });
+
+        $('#rdoReject').on("click", function () {
+            $('#reject').show();
+            $('#reject textarea').attr('required', 'required');
+            $('#approve').hide();
+            $('#cancel').hide();
+            $('#cancel textarea').removeAttr('required');
+            
+        });
+
+        $('#rdoCancel').on("click", function () {
+            $('#cancel').show();
+            $('#cancel textarea').attr('required', 'required');
+            $('#approve').hide();
+            $('#reject').hide();
+            $('#reject textarea').removeAttr('required');
+            $('#reject textarea').val('');
+        });
+
+
+        if ($('#rdoReject').is(':checked')) {
+            $('#approve').hide();
+
+            $('#cancel').hide();
+            $('#cancel textarea').removeAttr('required');
+
+            $('#reject').show();
+            $('#reject textarea').attr('required', 'required');
+            
+        }
+        else if ($('#rdoApprove').is(':checked')) {
+
+            $('#reject').hide();
+            $('#reject textarea').removeAttr('required');
+
+            $('#cancel').hide();
+            $('#cancel textarea').removeAttr('required');
+
+            $('#approve').show();
+        }
+        else if ($('#rdoCancel').is(':checked')) {
+            
+            $('#approve').hide();
+
+            $('#reject').hide();
+            $('#reject textarea').removeAttr('required');
+
+            $('#cancel').show();
+            $('#cancel textarea').attr('required', 'required');
+            
+        }
+        else {
+            $('#approve').hide();
+
+            $('#cancel').hide();
+            $('#cancel textarea').removeAttr('required');
+
+            $('#reject').hide();
+            $('#reject textarea').removeAttr('required');
+           
+        }
+
+        $('#btnApprove').on('click', function (event) {
+            var form = $('#EditForm')[0]; // Get the form element
+            if (form.checkValidity()) { // Check HTML validation
+                event.preventDefault(); // Prevent default behavior
+                Swal.fire({
+                    title: "Do you want to save the changes?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Save",
+                    denyButtonText: `Don't save`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Successfully Updated!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            // Submit the form after the confirmation
+                            $('#EditForm').submit();
+                        }, 1000);
+                    } else if (result.isDenied) {
+                        Swal.fire("Changes are not saved", "", "info");
+                    }
+                });
+            }
+        });
+
+        $('#btnCancel').on('click', function (event) {
+            var form = $('#EditForm')[0]; // Get the form element
+            if (form.checkValidity()) { // Check HTML validation
+                event.preventDefault(); // Prevent default behavior
+                Swal.fire({
+                    title: "Do you want to save the changes?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Save",
+                    denyButtonText: `Don't save`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Successfully Updated!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            // Submit the form after the confirmation
+                            $('#EditForm').submit();
+                        }, 1000);
+                    } else if (result.isDenied) {
+                        Swal.fire("Changes are not saved", "", "info");
+                    }
+                });
+            }
+        });
+
+        $('#btnReject').on('click', function (event) {
+            var form = $('#EditForm')[0]; // Get the form element
+            if (form.checkValidity()) { // Check HTML validation
+                event.preventDefault(); // Prevent default behavior
+                Swal.fire({
+                    title: "Do you want to save the changes?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Save",
+                    denyButtonText: `Don't save`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Successfully Updated!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            // Submit the form after the confirmation
+                            $('#EditForm').submit();
+                        }, 1000);
+                    } else if (result.isDenied) {
+                        Swal.fire("Changes are not saved", "", "info");
+                    }
+                });
+            }
+        });
+
+    });
+
+
+</script>

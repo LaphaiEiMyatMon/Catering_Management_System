@@ -1,0 +1,55 @@
+﻿@model Moment_Catering_System.Models.DishMaintenance
+@using Moment_Catering_System.Common
+@{
+    ViewBag.Title = "UpdateDish";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="UpdateDish" method="post" enctype="multipart/form-data" id="EditForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Update Dish</h5>
+            @Html.HiddenFor(model => model.DishEntity.DishID)
+            @Html.HiddenFor(model => model.DishEntity.Picture)
+
+            <img src="data:image/png;base64,@Model.DishEntity.Picture" alt="Profile Picture" class="image-size" width="100" height="100" />
+
+            <div class="pt-4">
+
+                @Html.TextBoxFor(model => model.DishEntity.DishName, new { @class = "form-control name-textbox", placeholder = "Dish Name", maxlength = "19", required = "required" })
+            </div>
+
+            <div class="pt-4">
+                @Html.DropDownListFor(model => model.DishEntity.MenuID,ViewOperation.GetDropDownList(Model.GetMenuList()),"Select Menu",
+                                                        new { @class = "form-control name-textbox", required = "required" })
+            </div>
+            <div class="pt-4">
+                @Html.TextBoxFor(model => model.DishEntity.UnitPrice, new { @class = "form-control name-textbox", placeholder = "Enter Unit Price $", type = "number" })
+            </div>
+
+            <div class="pt-4">
+
+                <label for="fileInput" class="form-control name-textbox" style="position: relative; overflow: hidden; display: inline-block;">
+                    <span id="fileNameLabel" style="color:#888">Upload Dish Photo</span>
+                    @Html.TextBoxFor(model => model.DishEntity.FileBase, new { type = "file", id = "fileInput", style = "position: absolute; font-size: 100px; opacity: 0; right: 0; top: 0; cursor: pointer;", onchange = "displayFileName(this)" })
+                </label>
+
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script>
+                    function displayFileName(input) {
+                        var fileName = input.files[0].name;
+                        $("#fileNameLabel").text(fileName);
+                    }
+                </script>
+            </div>
+
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="DishList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" id="Update">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

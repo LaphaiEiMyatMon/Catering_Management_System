@@ -1,0 +1,174 @@
+﻿@model Moment_Catering_System.Models.PurchaseMaintenance
+@using Moment_Catering_System.Common
+@using Moment_Catering_System.Models
+
+@{
+    ViewBag.Title = "DetailEdit";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styleforPurchaseDetailUpdate.css">
+<link rel="stylesheet" href="~/Style/styleforMode.css">
+<script src="~/Scripts/confirmation.js"></script>
+<br />
+
+<div style="width:1300px; margin-left:100px;">
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="m-0 title" id="Detail">Purchase Detail</h4>
+            <h4 class="m-0 title" id="txtUpdate">Purchase Update</h4>
+            <br />
+            <form action="UpdatePurchase" method="post" id="EditForm">
+                @Html.HiddenFor(model => model.PurchaseEntity.CreatedAt)
+                @Html.HiddenFor(model => model.PurchaseEntity.CreatedBy)
+                @Html.HiddenFor(model => model.PurchaseEntity.UpdatedAt)
+                @Html.HiddenFor(model => model.PurchaseEntity.UpdatedBy)
+                <fieldset class="pfieldset">
+                    <legend class="plegend">Purchase Information</legend>
+                    <table cellpadding="15">
+                        <tr>
+                            <td>PurchaseID :</td>
+                            <td>@Html.TextBoxFor(model => model.PurchaseEntity.PurchaseID, new { @class = "form-control form-width name-textbox", @readonly = "readonly" })</td>
+
+                            <td>Staff Name :</td>
+                            <td> @Html.TextBoxFor(model => model.PurchaseEntity.StaffName, new { @class = "form-control form-width name-textbox", type = "text", @readonly = "readonly" })</td>
+                            <td>Edit Mode:</td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" id="editModeToggle">
+                                    <span class="slider round"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>*Supplier :</td>
+
+                            <td>
+                                @Html.DropDownListFor(model => model.PurchaseEntity.SupplierID,ViewOperation.GetDropDownList(Model.GetSupplierList()), "Choose Supplier",
+                                                                                       new { @class = "form-control form-width name-textbox editable-dropdown", required = "required", id = "SupplierID", @disabled = "disabled" })
+                            </td>
+
+                            <td>*Purchase Date :</td>
+                            <td>@Html.TextBoxFor(model => model.PDateFormatted, new { @class = "form-control form-width name-textbox", type = "date", placeholder = "Select date of birth", required = "required", id = "PDate" })</td>
+
+                            <td>Invoice No :</td>
+                            <td> @Html.TextBoxFor(model => model.PurchaseEntity.InvoiceNo, new { @class = "form-control form-width name-textbox", type = "text", placeholder = "Enter Invoice No", required = "required", id = "InvoiceNo" })</td>
+                        </tr>
+                        <tr>
+                            <td>*Ingredients : </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.PurchaseEntity.IngredientID,ViewOperation.GetDropDownList(Model.GetIngredientList()), "Choose Ingredients",
+                                                                                       new { @class = "form-control form-width name-textbox editable-dropdown", required = "required", id = "IngredientID", @disabled = "disabled" })
+                            </td>
+
+                            <td>*Unit Price :</td>
+                            <td>
+                                @Html.TextBoxFor(model => model.PurchaseEntity.UnitPrice, new { @class = "form-control form-width name-textbox", type = "number", placeholder = "Enter Unit Price ($)", required = "required", id = "UnitPrice" })
+                            </td>
+
+                            <td>*Quantity :</td>
+                            <td>
+                                @Html.TextBoxFor(model => model.PurchaseEntity.Qty, new { @class = "form-control form-width name-textbox", type = "number", placeholder = "Enter qty (kg)", id = "Qty" })
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br />
+                </fieldset> <br />
+
+
+                <br />
+                <div class="button-container">
+                    <button class="cancel-btn" id="btnBack">Back</button>
+
+                    <button class="save-btn" id="Update" style="font-weight: 600;">Update</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initially disable all form fields and hide the update button
+        disableFormFields();
+        showDetailTitle();
+        hideUpdateButton();
+        hideUpdateTitle();
+
+        // Event handler for edit mode toggle
+        $('#editModeToggle').change(function () {
+            if ($(this).is(':checked')) {
+                enableFormFields();
+                hideDetailTitle();
+                showUpdateButton();
+                showUpdateTitle();
+                
+            } else {
+                disableFormFields();
+                hideUpdateButton();
+                hideUpdateTitle();
+                showDetailTitle();
+            }
+        });
+
+        function enableFormFields() {
+            // Enable editable form fields
+            $('.editable-dropdown').prop('disabled', false);
+            $('.editable-dropdown').removeClass('readonly-dropdown');
+
+            $('#PDate').prop('readonly', false);
+            $('#InvoiceNo').prop('readonly', false);
+            $('#UnitPrice').prop('readonly', false);
+            $('#Qty').prop('readonly', false);
+        }
+
+        function disableFormFields() {
+            // Disable form fields
+            $('.editable-dropdown').prop('disabled', true);
+            $('.editable-dropdown').addClass('readonly-dropdown');
+      
+            $('#PDate').prop('readonly', true);
+            $('#InvoiceNo').prop('readonly', true);
+            $('#UnitPrice').prop('readonly', true);
+            $('#Qty').prop('readonly', true);
+        }
+
+        function showUpdateButton() {
+            // Show the update button
+            $('#Update').show();
+        }
+
+        function hideUpdateButton() {
+            // Hide the update button
+            $('#Update').hide();
+        }
+        function showUpdateTitle() {
+            // Show the update button
+            $('#txtUpdate').show();
+        }
+
+        function hideUpdateTitle() {
+            // Hide the update button
+            $('#txtUpdate').hide();
+        }
+        function showDetailTitle() {
+            // Show the update button
+            $('#Detail').show();
+        }
+
+        function hideDetailTitle() {
+            // Hide the update button
+            $('#Detail').hide();
+        }
+
+        $("#btnBack").on("click", function () {
+            window.location.href = "/PurchaseMaintenance/PurchaseList";
+        });
+
+        
+    });
+</script>

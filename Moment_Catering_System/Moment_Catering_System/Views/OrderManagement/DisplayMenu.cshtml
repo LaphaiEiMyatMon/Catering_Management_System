@@ -1,0 +1,88 @@
+﻿@model Moment_Catering_System.Models.OrderManagement
+@using Moment_Catering_System.Models
+<link rel="stylesheet" href="~/Style/styleforButton.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<section id="values" class="values">
+
+    <div class="container" data-aos="fade-up">
+
+        <header class="">
+            <p style=" color:#666; font-size:35px; font-weight:600">
+                Menus
+
+
+
+            </p>
+            <p style="font-size:20px; color:#666; margin-bottom:40px">Choose from a broad selection of buffet catering menus that are appropriate for your budget, suited to all of your events.</p>
+
+        </header>
+
+        <div class="row">
+
+            @foreach (var data in Model.MenuList)
+            {
+                @Html.HiddenFor(model => data.MenuID)
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="box">
+                        <img src="@data.Url" class="img-fluid" alt="" style="height:30%; width:500px;">
+                        <h3>
+                            @data.MenuName
+
+                        </h3>
+                        <div style="text-align:left; font-size:19px">
+
+                            <ul>
+                                <li>@data.NoOfCourse courses</li>
+                                <li>@data.MinPax minimum pax</li>
+                                <li>@data.UnitPrice $ per pax</li>
+                                <li>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                </li>
+                            </ul>
+                            <a href="/OrderManagement/DisplayDish?menuID=@data.MenuID&menuName=@data.MenuName&minPax=@data.MinPax&noOfCourse=@data.NoOfCourse&unitPrice=@data.UnitPrice" class="save-btn" style="text-decoration:none; margin-left:20px">
+                                <i class="bi bi-cart" style="font-size:17px;"></i>
+                                Order Now
+                            </a>
+
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+</section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
+@if (ViewBag.Message != null && ViewBag.Message == "true")
+{
+    <script>
+        Swal.fire({
+            title: "Success!",
+            icon: "success",
+            timer: 1000
+        });
+    </script>
+}
+
+<style>
+    .checked {
+        color: orange;
+    }
+</style>

@@ -1,0 +1,169 @@
+﻿@model Moment_Catering_System.Models.Base.BaseTB_Count
+@using Moment_Catering_System.Models
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+<link rel="stylesheet" href="~/Style/styleforPurchase.css">
+
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container" style="max-width:1300px">
+                <div class="card-deck">
+                    <div class="card" style="background-color:#ffd0d7;">
+
+                        <div class="card-body">
+                            <h4><i class="bi bi-people-fill"></i> Total Customers</h4>
+                            <p class="card-text ml-4">@Model.CustomerCount</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                    <div class="card" style="background-color:#fce9ff;">
+
+                        <div class="card-body">
+                            <h4><i class="bi bi-person-workspace"></i> Total Employees </h4>
+                            <p class="card-text ml-4">@Model.StaffCount</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                    <div class="card" style="background-color:#ffdb9a;">
+
+                        <div class="card-body">
+                            <h4> <i class="bi bi-envelope"></i> Total Orders </h4>
+                            <p class="card-text ml-4">@Model.OrderCount</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background-color:#ecffe9;">
+
+                        <div class="card-body">
+                            <h4> <i class="bi bi-cart-fill"></i> Total Purchases </h4>
+                            <p class="card-text ml-4">@Model.PurchaseCount</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4 ml-1">
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="card" style="background-color:#ffd0d7;width:250px;">
+
+                                <div class="card-body">
+                                    <h5><i class="bi bi-people-fill"></i> Today Income</h5>
+                                    <p class="card-text ml-4">@Model.TotalIncome $</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card" style="background-color:#ffd0d7;width:250px;">
+
+                                <div class="card-body">
+                                    <h5><i class="bi bi-people-fill"></i> Today Expense</h5>
+                                    <p class="card-text ml-4">@Model.TotalExpense $</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 ml-4">
+                        <div class="card" style="background-color:#FAF8F5">
+                            <div class="card-body">
+                                <p class="title" style="float:inherit">Annual Order Rate</p>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+                                <canvas id="myChart" style="width:100%;max-width:900px"></canvas>
+                                <script>
+                                    const xValues = ['Jan', 'February', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                    const yValues = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15, 16];
+
+                                    new Chart("myChart", {
+                                        type: "line",
+                                        data: {
+                                            labels: xValues,
+                                            datasets: [{
+                                                fill: false,
+                                                lineTension: 0,
+                                                backgroundColor: "#e44c33",
+                                                borderColor: "#feefdb",
+                                                data: yValues
+                                            }]
+                                        },
+                                        options: {
+                                            legend: { display: false },
+                                            scales: {
+                                                yAxes: [{ ticks: { min: 6, max: 16 } }],
+                                            }
+                                        }
+                                    });
+
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 ml-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 style="text-align:center" class="title">Your Profile</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <img class="rounded-circle mt-3 ml-5" width="150" src="data:image/png;base64,@LoginInfo.ProfilePicture">
+
+                                    </div>
+                                    <div class="col">
+                                        <div class="font-weight-bold pt-4">StaffID : @LoginInfo.UserID</div>
+                                        <div class="font-weight-bold pt-4">Name : @LoginInfo.UserName</div>
+                                        <div class="font-weight-bold pt-4">RoleID :@LoginInfo.RoleID</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
+@if (ViewBag.Message != null)
+{
+
+    <script type="text/javascript">
+        Swal.fire({
+            title:"Success",
+            text: "@(ViewBag.Message)",
+            icon:"success"
+
+        });
+    </script>
+}
+
+<style>
+    .card:hover {
+        box-shadow: initial;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+</style>
+
+
+
+
+

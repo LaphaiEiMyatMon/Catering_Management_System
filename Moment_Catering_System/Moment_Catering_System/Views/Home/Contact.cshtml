@@ -1,0 +1,100 @@
+﻿
+
+<link rel="stylesheet" href="~/Style/shoppingcart/style.css">
+
+<link rel="stylesheet" href="~/Style/styleforCheckout.css">
+<link rel="stylesheet" href="~/fontawsome/css/font-awesome.min.css">
+<br />
+<div class="container-fluid top" data-aos="fade-up">
+    <div class="card">
+       
+
+       
+          
+                
+                    <div class="card-body">
+
+                        <div class="col-75 ">
+                            <h3 class="text-color">Contact us </h3>
+
+                            
+                            <div class="pt-4">
+                                <label><i class="fa fa-user"></i> Full Name</label>
+                                <input type="text" id="fname" name="firstname" class="form-control" placeholder="Your name..">
+                                <div class="pt-4">
+                                    <label><i class="fa fa-envelope"></i> Email</label>
+                                    <input type="text" id="fname" name="firstname" class="form-control" placeholder="Your name..">
+                                </div>
+
+
+                                <div class="pt-4">
+                                    <label><i class="fa fa-address-card-o"></i> Subject</label>
+
+                                    <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px" class="form-control"></textarea>
+                                </div>
+
+                                <div class="pt-4">
+                                  
+                                    <input  value="Submit" class="save-btn" onclick="msg()"id="btnSubmit">
+                                </div>
+                            </div>
+
+                        
+
+
+                    </div>
+
+
+
+                </div>
+          
+        </div>
+    </div>
+<br />
+
+<style>
+    .card {
+        background-color: #FAF8F5;
+        padding: 10px 10px 10px 10px;
+        width:400px;
+        margin-left:500px;
+    }
+    input[type=text], select, textarea {
+        width: 100%; /* Full width */
+        padding: 12px; /* Some padding */
+        border: 1px solid #ccc; /* Gray border */
+        border-radius: 4px; /* Rounded borders */
+        box-sizing: border-box; /* Make sure that padding and width stays in place */
+        margin-top: 6px; /* Add a top margin */
+        margin-bottom: 16px; /* Bottom margin */
+        resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+    }
+    .save-btn {
+        background-color: #F7971C;
+        width: 65px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 5px 5px 5px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: 2px solid #F7971C;
+        border-radius: 6px
+    }
+
+        .save-btn:hover {
+            border: 2px solid #e44c33;
+            background-color: #e44c33;
+            color: #fff;
+        }
+</style>
+
+
+<script>
+    function msg() {
+        Swal.fire({
+            title: "Success!",
+            text: "We will contact you soon.",
+            icon: "success"
+        });
+    }
+</script>

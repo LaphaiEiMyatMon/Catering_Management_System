@@ -1,0 +1,46 @@
+﻿@model Moment_Catering_System.Models.BranchMaintenance
+@using Moment_Catering_System.Common
+@using Moment_Catering_System.Common.Const
+
+@{
+                /**/
+
+                ViewBag.Title = "CreateBranch";
+                Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="CreateBranch" method="post" id="CreateForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Add New Branch</h5>
+            @Html.HiddenFor(model => model.BranchEntity.BranchNo)
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Branch Name</span></label>
+                @Html.TextBoxFor(model => model.BranchEntity.BranchName, new { @class = "form-control name-textbox", placeholder = "", maxlength = "19", required = "required" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Email</span></label>
+                @Html.TextBoxFor(model => model.BranchEntity.Email, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Address</span></label>
+                @Html.TextBoxFor(model => model.BranchEntity.Address, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Call Center Phone Number</span></label>
+                @Html.TextBoxFor(model => model.BranchEntity.CallCenterPhoneNo, new { @class = "form-control name-textbox", placeholder = "", maxlength = "19", required = "required" })
+            </div>
+
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="BranchList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" id="Save">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

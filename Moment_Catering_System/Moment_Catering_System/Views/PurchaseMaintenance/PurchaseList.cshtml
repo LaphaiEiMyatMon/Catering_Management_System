@@ -1,0 +1,172 @@
+﻿@model Moment_Catering_System.Models.PurchaseMaintenance
+@using Moment_Catering_System.Common
+
+@{
+    /**/
+
+    ViewBag.Title = "PurchaseList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+
+}
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Style/styleforPurchase.css">
+<script src="~/Scripts/confirmation.js"></script>
+<br />
+<div style="margin-left:80px;">
+    <div class="container-fluid">
+
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="m-0 title">Purchase List</h4><br />
+                <fieldset class="pfieldset">
+                    <legend class="plegend">Search Filter</legend>
+
+                    <div class="container">
+                        <form action="PurchaseList" method="post">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="row mt-3">
+                                        <div class="col-md-2">
+                                            <label>PurchaseID</label>
+                                            @Html.TextBoxFor(model => model.SearchEntity.PurchaseID, new { @class = "form-control", id = "PurchaseID" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>InvoiceNo</label>
+                                            @Html.TextBoxFor(model => model.SearchEntity.InvoiceNo, new { @class = "form-control", id = "InvoiceNo" })
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>From Date</label>
+                                            @Html.TextBoxFor(model => model.SearchEntity.FromDate, new { @class = "form-control", type = "date", placeholder = "Select date", id = "FromDate", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>To Date</label>
+                                            @Html.TextBoxFor(model => model.SearchEntity.ToDate, new { @class = "form-control", type = "date", placeholder = "Select date", id = "ToDate", max = DateTime.Now.ToString("yyyy-MM-dd") })
+                                        </div>
+                                    </div>
+                                    <div class="row mt-4">
+
+                                        <div class="col-md-4">
+                                            <label>Search by Supplier</label>
+                                            @Html.DropDownListFor(model => model.SearchEntity.SupplierID, ViewOperation.GetDropDownList(Model.GetSupplierList()), "Search by Supplier", new { @class = "form-control", id = "SupplierID" })
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Search by Ingredients</label>
+                                            @Html.DropDownListFor(model => model.SearchEntity.IngredientID, ViewOperation.GetDropDownList(Model.GetIngredientList()), "Search by Ingredients", new { @class = "form-control", id = "IngredientID" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-4" style="margin-top:100px">
+                                    <button type="submit" class="btn btn-success" style="font-weight: 600;"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                    <a href="PurchaseList" class="btn list-btn"><i class="fa fa-list" aria-hidden="true"></i> List All</a>
+                                    <button type="reset" class="btn btn-danger" id="btnClearAll"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <br />
+                </fieldset>
+
+                <br />
+                <p >Row count : @Model.PurchaseList.Count <span style="float:right"><a href="ExportExcelPurchase" class="btn btn-success">Export to Excel</a></span></p> <br />
+
+                @if (Model.PurchaseList.Count > 0)
+                {
+                    <div class="table-responsive" style="overflow-x:auto">
+                        <div style="overflow-x:auto;">
+                            <table>
+
+                                <tr>
+                                    <th>
+                                        Purchase ID
+                                    </th>
+                                    <th>
+                                        Purchase Date
+                                    </th>
+                                    <th>
+                                        Supplier
+                                    </th>
+                                    <th>
+                                        Invoice No
+                                    </th>
+
+                                    <th>
+                                        Ingredient
+                                    </th>
+                                    <th>
+                                        Unit Price
+                                    </th>
+                                    <th>
+                                        Qty
+                                    </th>
+                                    <th>
+                                        Total Amount
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+
+                                @foreach (var data in Model.PurchaseList)
+
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => data.PurchaseID)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.PDate)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.Name)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.InvoiceNo)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.IngredientName)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.UnitPrice)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.Qty)</td>
+                                        <td>@Html.DisplayFor(modelItem => data.TotalPrice)</td>
+                                        <td>
+                                            <a href="/PurchaseMaintenance/DetailEdit?purchaseID=@data.PurchaseID">
+                                                <i class="fa fa-edit edit-icon" style="font-size:15.5px;color:forestgreen"></i>
+                                            </a>
+
+                                            <i class="fas fa-trash-alt delete-icon" style="font-size:15.5px;color:red" onclick="deleteConfirm(event, '/PurchaseMaintenance/DeletePurchase?purchaseID=@data.PurchaseID')"></i>
+
+                                        </td>
+                                    </tr>
+                                }
+
+
+                            </table>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <p><i class="bi bi-emoji-frown"></i> No record found.</p>
+                }
+                <br />
+                <div class="button-container">
+
+                    <a href="RegisterPurchase" class="register-purchase-btn">Register Purchase</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnClearAll").on("click", function () {
+            // Reset the form fields
+            $("#PurchaseID").val("");
+            $("#InvoiceNo").val("");
+            $("#SupplierID").val($("#SupplierID option:first").val());
+            $("#IngredientID").val($("#IngredientID option:first").val());
+            $("#FromDate").val("");
+            $("#ToDate").val("");
+
+            // Prevent default form submission behavior
+            return false;
+        });
+    });
+</script>
+
+

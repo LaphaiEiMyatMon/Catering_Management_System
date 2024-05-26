@@ -1,0 +1,39 @@
+﻿@model Moment_Catering_System.Models.SupplierManagement
+
+@{
+    ViewBag.Title = "EditSupplier";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="EditSupplier" method="post" id="EditForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Edit Supplier</h5>
+            @Html.HiddenFor(model => model.SupplierEntity.SupplierID)
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Name</span></label>
+                @Html.TextBoxFor(model => model.SupplierEntity.Name, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Contact Person</span></label>
+                @Html.TextBoxFor(model => model.SupplierEntity.ContactPerson, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Contact Number</span></label>
+                @Html.TextBoxFor(model => model.SupplierEntity.ContactNumber, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Address</span></label>
+                @Html.TextBoxFor(model => model.SupplierEntity.Address, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="SupplierList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" style="width:80px" id="Update">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

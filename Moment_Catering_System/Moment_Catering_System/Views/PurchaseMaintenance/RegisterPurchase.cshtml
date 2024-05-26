@@ -1,0 +1,346 @@
+﻿@model Moment_Catering_System.Models.PurchaseMaintenance
+@using Moment_Catering_System.Common
+@using Moment_Catering_System.Models
+@{
+    /**/
+
+    ViewBag.Title = "RegisterPurchase";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+
+}
+<link rel="stylesheet" href="~/Style/styleforButton.css">
+
+<br />
+
+<div style="width:1300px; margin-left:100px;">
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="m-0 title">Register Purchase</h4><br />
+            <fieldset class="pfieldset">
+                <legend class="plegend">Purchase Information</legend>
+                <table cellpadding="15" id="purchaseInfo">
+                    <tr>
+                        <td>*Supplier :</td>
+                        <td>
+                            @Html.DropDownListFor(model => model.PurchaseEntity.SupplierID,ViewOperation.GetDropDownList(Model.GetSupplierList()), "Select Supplier",
+                                     new { @class = "form-control name-textbox form-width", required = "required", id = "SupplierID" })
+                        </td>
+
+                        <td>*Purchase Date :</td>
+                        <td>@Html.TextBoxFor(model => model.PurchaseEntity.PDate, new { @class = "form-control form-width name-textbox", type = "date", placeholder = "Select date of birth", required = "required", id = "PDate", max = DateTime.Now.ToString("yyyy-MM-dd") })</td>
+
+                        <td>Invoice No :</td>
+                        <td> @Html.TextBoxFor(model => model.PurchaseEntity.InvoiceNo, new { @class = "form-control form-width name-textbox", type = "text", placeholder = "Enter Invoice No", required = "required", id = "InvoiceNo" })</td>
+                        <td rowspan="2"><button class="save-btn" id="btnAddToList">Add </button></td>
+                    </tr>
+                    <tr>
+                        <td>*Ingredients : </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.PurchaseEntity.IngredientID,ViewOperation.GetDropDownList(Model.GetIngredientList()), "Choose Ingredients",
+                                                                                   new { @class = "form-control form-width name-textbox", required = "required", id = "IngredientID" })
+                        </td>
+
+                        <td>*Unit Price :</td>
+                        <td>
+                            @Html.TextBoxFor(model => model.PurchaseEntity.UnitPrice, new { @class = "form-control form-width name-textbox", type = "number", placeholder = "Enter Unit Price ($)", required = "required", id = "UnitPrice", min = 0 })
+                        </td>
+
+                        <td>*Quantity :</td>
+                        <td>
+                            @Html.TextBoxFor(model => model.PurchaseEntity.Qty, new { @class = "form-control form-width name-textbox", type = "number", placeholder = "Enter Qty (kg)", id = "Qty", min = 0 })
+                        </td>
+                    </tr>
+                </table>
+
+                <br />
+            </fieldset> <br />
+
+            <fieldset class="pfieldset" id="purchaseDetailFieldset">
+                <legend class="plegend">Purchase Detail</legend>
+
+                <table class="detail-table" style="" id="tblItemList" cellpadding="7">
+                    <thead>
+                        <tr>
+                            <th hidden>
+                                Supplier ID
+                            </th>
+                            <th>
+                                Supplier
+                            </th>
+                            <th>
+                                Purchase Date
+                            </th>
+                            <th>
+                                Invoice No
+                            </th>
+                            <th hidden>
+                                Ingredient ID
+                            </th>
+                            <th>
+                                Ingredient
+                            </th>
+                            <th>
+                                Unit Price
+                            </th>
+                            <th>
+                                Qty
+                            </th>
+                            <th>
+                                Total Amount
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </fieldset>
+            <br />
+            <div class="button-container">
+                <button class="cancel-btn" id="btnBack">Back</button>
+                <button class="btn btn-danger" id="btnClearAll" style="font-weight: 600;">Clear All</button>
+                <button class="btn btn-success" id="btnSubmit" style="font-weight: 600;">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#purchaseDetailFieldset").hide();
+
+        $("#btnAddToList").on("click", function () {
+            if (checkValidation()) {
+                addToTheItemList();
+                // Show the table after adding the first row
+                $("#purchaseDetailFieldset").show();
+            }
+        });
+
+        $("#btnClearAll").on("click", function () {
+
+            $("#InvoiceNo").val("");
+            $("#SupplierID").val($("#SupplierID option:first").val());
+            $("#IngredientID").val($("#IngredientID option:first").val());
+            $("#PDate").val("");
+            $("#UnitPrice").val("");
+            $("#Qty").val("");
+            $("#tblItemList").find("tr:gt(0)").remove();
+
+        });
+
+        $("#btnSubmit").on("click", function () {
+            if (checkBeforeSubmit()) {
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you want to save.?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        saveData();                   
+                    }
+                });
+
+            }
+        });
+
+    });
+
+    function checkBeforeSubmit() {
+        var rowCount = $('#tblItemList tbody tr').length;
+        console.log("Hi", rowCount);
+        if (rowCount == 0) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Add Items Before Submitting!",
+            });
+            return false;
+        } else {
+            // Proceed with saving
+            return true;
+        }
+    }
+    function checkValidation() {
+        var supplierId = $("#SupplierID").val();
+        var pDate = $("#PDate").val();
+        var ingredientId = $("#IngredientID").val();
+        var unitPrice = parseFloat($("#UnitPrice").val());
+        var qty = parseFloat($("#Qty").val());
+
+        if (!supplierId) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Select Supplier!",
+            });
+            return false;
+        } else if (!pDate) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Choose Purchase Date!",
+            });
+            return false;
+        } else if (!ingredientId) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Choose Ingredient!",
+            });
+            return false;
+        } else if (isNaN(unitPrice) || unitPrice <= 0) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Enter a valid Unit Price!",
+            });
+            return false;
+        } else if (isNaN(qty) || qty <= 0) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Enter a valid Quantity!",
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function addToTheItemList() {
+        var totalItemList = $("#tblItemList");
+        var supplierId = $("#SupplierID").val();
+        var supplierName = $("#SupplierID option:selected").text();
+
+        var invoiceNo = $("#InvoiceNo").val();
+        if (!invoiceNo) {
+            invoiceNo = "-";
+        }
+        var ingredientId = $("#IngredientID").val();
+        var ingredientName = $("#IngredientID option:selected").text();
+        var pDate = $("#PDate").val();
+        var unitPrice = parseFloat($("#UnitPrice").val());
+        var qty = parseFloat($("#Qty").val());
+        console.log("Hi", qty)
+        var totalPrice = unitPrice * qty;
+
+        var ItemList = "<tbody><tr><td hidden>" + supplierId + "</td><td>" +
+            supplierName + "</td><td>" +
+            pDate + "</td><td>" +
+            invoiceNo + "</td><td hidden>" +
+            ingredientId + "</td><td>" +
+            ingredientName + "</td><td>" +
+            unitPrice + "</td><td>" +
+            qty + "</td><td>" +
+            totalPrice + "</td><td>" +
+            "<button style=\"border: 2px solid transparent;background-color: transparent;\" onclick=\"RemoveItem(this)\"> <i class=\"fas fa-trash-alt delete-icon\" style=\"font-size:17px;color:red\"></i> </button>"
+            +
+            "</td></tr> </tbody>";
+        totalItemList.append(ItemList);
+    }
+
+    function RemoveItem(ingredientId) {
+        $(ingredientId).closest('tr').remove();
+    }
+
+    function saveData() {
+        var rows = $("#tblItemList").find("tr:gt(0)");
+        var data = [];
+
+        rows.each(function () {
+            var rowData = {
+                supplierId: $(this).find("td:eq(0)").text(),
+                pDate: $(this).find("td:eq(2)").text(),
+                invoiceNo: $(this).find("td:eq(3)").text(),
+                ingredientId: $(this).find("td:eq(4)").text(),
+                unitPrice: $(this).find("td:eq(6)").text(),
+                qty: $(this).find("td:eq(7)").text(),
+                totalPrice: $(this).find("td:eq(8)").text()
+            };
+            data.push(rowData);
+        });
+
+        $.ajax({
+            url: '/PurchaseMaintenance/RegisterPurchase',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+
+                // Show success message
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully Saved!",
+                    showConfirmButton: false,
+                    
+                });
+                setTimeout(function () {
+                    // Submit the form after the confirmation
+                    window.location.href = '/PurchaseMaintenance/PurchaseList';
+                }, 1000);            
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+                // Handle error if needed
+            }
+        });
+
+    }
+
+    $("#btnBack").on("click", function () {
+        window.location.href = "/PurchaseMaintenance/PurchaseList";
+    });
+</script>
+
+<style>
+    .text-color {
+        color: #e44c33
+    }
+
+    .plegend {
+        font-size: 15px;
+    }
+
+    .pfieldset {
+        border: solid 1px rgb(211, 211, 211);
+        padding: 3px;
+        border-radius: 2px;
+    }
+
+    .form-control:focus {
+        box-shadow: #F7971C;
+        border: 2px solid #F7971C
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+        .button-container button {
+            margin-left: 30px; /* Adjust the spacing between buttons as needed */
+        }
+
+    .detail-table {
+        width: 98%;
+        margin: 7px 5px 5px 10px;
+    }
+
+        .detail-table td:hover {
+            background-color: #f7971c; /* Change background color to #F7971C */
+            color: white; /* Change font color to white */
+        }
+
+        .detail-table th:hover {
+            background-color: #f7971c; /* Change background color to #F7971C */
+            color: white; /* Change font color to white */
+        }
+        .detail-table tbody:nth-child(even) {
+            background-color: aliceblue;
+     
+        }
+</style>

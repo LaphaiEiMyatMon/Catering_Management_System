@@ -1,0 +1,105 @@
+﻿@model Moment_Catering_System.Models.SupplierManagement
+
+@{
+    ViewBag.Title = "SupplierList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+<link rel="stylesheet" href="~/Style/StylesforList.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="content-wrapper">
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- Main row -->
+            <div class="row">
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="m-0 title">Supplier List</h2>
+                                <hr />
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Name</th>
+                                                <th>Contact Person</th>
+                                                <th>Contact Number</th>
+                                                <th>Address</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var data in Model.SupplierList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.SupplierID)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.Name)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.ContactPerson)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.ContactNumber)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.Address)
+                                                    </td>
+                                                    <td>
+
+                                                        <a href="EditSupplier?SupplierID=@data.SupplierID">  <i class="fa fa-edit" style="font-size:15.5px;color:forestgreen"></i></a>
+
+                                                        <i class="fas fa-trash-alt" style="font-size:15.5px;color:red" onclick="deleteConfirm(event, '/SupplierManagement/DeleteSupplier?SupplierID=@data.SupplierID')"> </i>
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="AddSupplier" class="save-btn" style="float:right" id="Save">Add New Supplier</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+@if (ViewBag.Msg != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message");
+                };
+    </script>
+}
+<script type="text/javascript">
+    $('.confirmation').on('click', function () {
+        return confirm('Are you sure you want to Delete?');
+    });
+</script>

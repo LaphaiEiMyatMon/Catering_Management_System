@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="~/Style/styleforButton.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow</title>
+    <style>
+        /* Slideshow container */
+        .slideshow-container {
+            width: inherit;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Hide the images by default */
+        .mySlides {
+            display: none;
+        }
+
+            /* Style the image */
+            .mySlides img {
+                width: 100%;
+                height: 70%;
+            }
+
+        /* Style the text */
+        .text {
+            font-size: 25px;
+            font-weight: 500;
+            font-family: Cursive;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            text-align: center;
+            opacity: 0.8;
+            background-color: #FAF8F5;
+            padding: 10px;
+        }
+
+            .text:hover {
+           
+                opacity: 1;
+            }
+
+        .texttwo {
+            font-size: 25px;
+            font-weight: 500;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-380%);
+            text-align: center;
+        }
+
+        .save-btn {
+            background-color: #F7971C;
+            width: auto;
+            height: 40px;
+            color: #fff;
+            font-size: 20px;
+            align-items: center;
+            font-weight: 600;
+            border: 2px solid #F7971C;
+            border-radius: 6px
+        }
+
+            .save-btn:hover {
+                border: 2px solid #e44c33;
+                background-color: #e44c33;
+                color: #fff;
+            }
+
+
+        .text-color {
+            color: #e44c33;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slideshow-container">
+        <!-- Slides -->
+        <div class="mySlides">
+            <img src="~/Images/slideshowthree.jpg" alt="Slide 1">
+            <div class="text">
+
+                <p>
+                    Enjoy your moment with us.<i class="bi bi-heart-fill" style="color:#F7971C"></i> <br />
+                    Let us cater to your every need, turning moments into memories, one delicious bite at a time.
+                </p>
+            </div>
+            <a class="save-btn texttwo" href="/Ordermanagement/DisplayMenu" style="text-decoration:none;">Order Now <i class="bi bi-cart-fill"></i></a>
+        </div>
+
+        <div class="mySlides">
+            <img src="~/Images/slideshowtwo.jpg" alt="Slide 2">
+            <div class="text">
+
+                <p>
+                    Enjoy your moment with us.<i class="bi bi-heart-fill" style="color:#F7971C"></i> <br />
+                    Let us cater to your every need, turning moments into memories, one delicious bite at a time.
+                </p>
+            </div>
+            <a class="save-btn texttwo" href="/Ordermanagement/DisplayMenu" style="text-decoration:none;">Order Now <i class="bi bi-cart-fill"></i></a>
+        </div>
+
+        <div class="mySlides">
+            <img src="~/Images/slideshowone.jpg" alt="Slide 3">
+            <div class="text">
+
+                <p>
+                    Enjoy your moment with us.<i class="bi bi-heart-fill" style="color:#F7971C"></i> <br />
+                    Let us cater to your every need, turning moments into memories, one delicious bite at a time.
+                </p>
+            </div>
+            <a class="save-btn texttwo" href="/Ordermanagement/DisplayMenu" style="text-decoration:none;">Order Now <i class="bi bi-cart-fill"></i></a>
+        </div>
+    </div>
+
+    <section id="counts" class="counts">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-emoji-smile"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Happy Clients</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="900" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Projects</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box bg">
+                        <i class="bi bi-headset" style="color: #15be56;"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Hours Of Support</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box bg">
+                        <i class="bi bi-people" style="color: #bb0852;"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="500" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Hard Workers</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="row gx-0" data-aos="fade-up">
+            <div class="col" style="margin-left:50px">
+                <h1 class="text-color">Catering Display</h1>
+
+                <p style="font-size:20px">
+                    Let's see how we make buffet set up <i class="bi bi-arrow-right-circle text-color"></i>
+
+
+                </p>
+            </div>
+
+            <div class="col">
+
+                <iframe width="885" height="360" src="https://www.youtube.com/embed/v0uzklldxWY" title="Catering Services, buffet set up &amp; Menu, plating" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+            </div>
+        
+        </div>
+                       
+
+
+    </section>
+    
+    
+    <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 7000); // Change image every 2 seconds
+        }
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+    </script>
+</body>
+</html>

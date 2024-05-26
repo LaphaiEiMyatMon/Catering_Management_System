@@ -1,0 +1,104 @@
+﻿@model Moment_Catering_System.Models.PaymentMaintenance
+@using Moment_Catering_System.Models
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderList.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        @if (!string.IsNullOrEmpty(LoginInfo.UserName))
+                        {
+                            <h4 class="text-color">@LoginInfo.UserName 's Invoices</h4>
+                        }
+                        else
+                        {
+                            <h4 class="text-color">Invoices</h4>
+                        }
+
+
+
+                        <br />
+                        @if (!string.IsNullOrEmpty(LoginInfo.UserID))
+                        {
+                            <p style="font-size:12px">Row count : @Model.PaymentList.Count</p>
+
+                            if (Model.PaymentList.Count > 0)
+                            {
+
+
+                                <div class="table-responsive" style="overflow-x:auto">
+                                    <div style="overflow-x:auto;">
+                                        <table>
+                                            <tr>
+                                                <th>Invoice No</th>
+                                                <th>OrderID</th>
+                                                <th>CustomerID</th>
+                                                <th>Total Amount $</th>
+                                                <th>Pay Date</th>
+
+
+                                            </tr>
+
+                                            @foreach (var data in Model.PaymentList)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => data.PaymentID)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.OrderID)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.CustomerID)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.PaymentAmount)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.UpdatedAt)</td>
+
+
+                                                </tr>
+                                            }
+
+
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <p><i class="bi bi-emoji-frown"></i> No Invoice.</p>
+                            }
+                        }
+                        else
+                        {
+                            <p><i class="bi bi-emoji-frown"></i> No Invoice.</p>
+                        }
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+</div>
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+        };
+    </script>
+
+}
+

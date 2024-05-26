@@ -1,0 +1,115 @@
+﻿@model Moment_Catering_System.Models.CustomerMaintenance
+@using Moment_Catering_System.Models
+<link rel="stylesheet" href="~/Style/styleforLogin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="~/Images/login.jpg"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4">
+
+
+                <form action="/CustomerMaintenance/Login" method="post">
+                    <h3>Login Here</h3>
+
+                    <br />
+                    <div class="form-outline mb-3">
+                        @Html.TextBoxFor(model => model.CustomerEntity.Email, new { @class = "form-control", placeholder = "*Email", required = "required", type = "email" })
+
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-outline mb-3">
+                        @Html.TextBoxFor(model => model.CustomerEntity.Password, new { @class = "form-control", placeholder = "*Password", required = "required", type = "password", minlength = "8" })
+                    </div>
+
+                    <button class="save-btn" type="submit">
+                        Login
+                    </button> <br /><br />
+                    <p>
+                        Don't have an account? <a href="/CustomerMaintenance/RegisterCustomer"
+                                                  class="text-color">Register</a>
+                    </p>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Include SweetAlert script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.Message == "true")
+    {
+        <script>
+            Swal.fire({
+                title: "Success!",
+                icon: "success",
+                timer: 1000
+            });
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+        Swal.fire({
+            title: "Oops...",
+            text: "@(ViewBag.Message)",
+            icon: "error"
+        });
+        </script>
+    }
+}
+
+<script>
+    var errorCount = @LoginInfo.LoginErrorCount;
+    console.log('Error Count:', errorCount);
+
+    if (errorCount > 3) {
+        let remainingTime = 20; // Initial remaining time in seconds
+        let timerInterval;
+        Swal.fire({
+            icon: "error",
+            title: "Account Suspended!!!",
+            html: "Please try again after <span id='countdown'></span> seconds.",
+            timer: remainingTime * 1000, // Convert seconds to milliseconds
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+                const countdownElement = document.getElementById('countdown');
+                countdownElement.textContent = remainingTime;
+
+                timerInterval = setInterval(() => {
+                    remainingTime -= 1;
+                    if (remainingTime >= 0) {
+                        countdownElement.textContent = remainingTime;
+                    } else {
+                        countdownElement.textContent = '0';
+                    }
+                }, 1000); // Update every second
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+                window.location.href = "Login";
+            }
+        }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer) {
+                
+            }
+        });
+    }
+</script>
+
+
+

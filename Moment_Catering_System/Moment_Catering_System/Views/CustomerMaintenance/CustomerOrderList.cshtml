@@ -1,0 +1,92 @@
+﻿@model Moment_Catering_System.Models.OrderManagement
+@using Moment_Catering_System.Models
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderList.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                     
+                                <h4 class="text-color">@LoginInfo.UserName 's Orders</h4>
+
+                                <form action="CustomerOrder" method="post">
+                                    <br />
+                                    <p style="font-size:12px">Row count : @Model.OrderList.Count</p>
+                                    @if(Model.OrderList.Count > 0) { 
+                                    <div class="table-responsive" style="overflow-x:auto">
+                                        <div style="overflow-x:auto;">
+                                            <table>
+                                                <tr>
+                                                    <th>OrderID</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Menu</th>
+                                                    <th>Selected Pax</th>
+                                                    <th>Delivery Date</th>
+                                                    <th>Delivery Time</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+
+                                                @foreach (var data in Model.OrderList)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => data.OrderID)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.CustomerEntity.FirstName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.CustomerEntity.LastName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.MenuEntity.MenuName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.DishQuantity)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.Date)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.DeliveryTime)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.Status)</td>
+                                                        <td><a href="CustomerOrder?orderID=@data.OrderID&menuID=@data.MenuID"><i class="fa fa-eye" aria-hidden="true"></i> Detail</a></td>
+                                                        <td></td>
+                                                    </tr>
+                                                }
+
+
+
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                    <p><i class="bi bi-emoji-frown"></i> No order.</p>
+                                    }
+                                </form>
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="/OrderManagement/DisplayMenu" class="save-btn" style="float:right">Place Order</a>
+                           
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  
+</div>
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+        };
+    </script>
+
+}

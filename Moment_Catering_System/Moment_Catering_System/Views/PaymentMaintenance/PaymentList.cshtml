@@ -1,0 +1,137 @@
+﻿@model Moment_Catering_System.Models.PaymentMaintenance
+@using Moment_Catering_System.Common
+@{
+    ViewBag.Title = "PaymentList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderList.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container" style="max-width:1300px">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-color">Payment List</h4>
+                                <fieldset class="pfieldset">
+                                    <legend class="plegend">Search Filter</legend>
+                                    <div class="container">
+                                        <form action="PaymentList" method="post">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-2">
+                                                            <label>Invoice No</label>
+                                                            @Html.TextBoxFor(model => model.PaymentEntity.PaymentID, new { @class = "form-control", id = "orderID" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Customer ID</label>
+                                                            @Html.TextBoxFor(model => model.PaymentEntity.CustomerID, new { @class = "form-control", id = "cusID" })
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Status</label>
+                                                            <div class="form-control">
+                                                                @Html.RadioButtonFor(model => model.PaymentEntity.Status, "unpaid", new { id = "rdoPending" })
+                                                                <label for="rdoReject">UnPaid</label>
+
+                                                                @Html.RadioButtonFor(model => model.PaymentEntity.Status, "paid", new { id = "rdoApprove" })
+                                                                <label for="rdoApprove">Paid</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4" style="margin-top:40px">
+
+                                                    <button type="submit" class="btn btn-success mr-2" style="font-weight: 600;"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                                    <a href="PaymentList" class="btn list-btn"><i class="fa fa-list" aria-hidden="true"></i> List All</a>
+                                                    <button type="reset" class="btn btn-danger" id="btnClearAll"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div><br />
+                                </fieldset>
+
+                                <br />
+                                <p style="font-size:12px">Row count : @Model.PaymentList.Count</p>
+                                <div class="table-responsive" style="overflow-x:auto">
+                                    <div style="overflow-x:auto;">
+                                        <table>
+                                            <tr>
+                                                <th>Invoice No</th>
+                                                <th>OrderID</th>
+                                                <th>CustomerID</th>
+                                                <th>Total Amount $</th>
+                                                <th>Status</th>
+                                       
+                                                <th>Action</th>
+                                            </tr>
+
+                                            @foreach (var data in Model.PaymentList)
+                                            {
+                                            <tr>
+                                                <td>@Html.DisplayFor(modelItem => data.PaymentID)</td>
+                                                <td>@Html.DisplayFor(modelItem => data.OrderID)</td>
+                                                <td>@Html.DisplayFor(modelItem => data.CustomerID)</td>
+                                                <td>@Html.DisplayFor(modelItem => data.PaymentAmount)</td>
+                                                <td>@Html.DisplayFor(modelItem => data.Status)</td>
+                            
+                                                <td><a href="/PaymentMaintenance/RegisterPayment?paymentID=@data.PaymentID"><i class="fa fa-eye" aria-hidden="true"></i> Update</a></td>
+                                                <td></td>
+                                            </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnClearAll").on("click", function () {
+                // Reset the form fields
+                $("#orderID").val("");
+                $("#cusID").val("");
+                $("#menuID").val($("#menuID option:first").val());
+                $("#rdoPending").prop('checked', false);
+                $("#rdoApprove").prop('checked', false);
+                $("#rdoReject").prop('checked', false);
+                $("#rdoCancel").prop('checked', false);
+                $("#deliDate").val("");
+                $("#deliTime").val("");
+
+                // Prevent default form submission behavior
+                return false;
+            });
+        });
+</script>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+        };
+    </script>
+
+}

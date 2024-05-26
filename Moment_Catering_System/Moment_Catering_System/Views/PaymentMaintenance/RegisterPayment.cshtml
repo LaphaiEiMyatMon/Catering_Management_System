@@ -1,0 +1,61 @@
+﻿@model Moment_Catering_System.Models.PaymentMaintenance
+@{
+    ViewBag.Title = "RegisterPayment";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+
+
+
+
+<link rel="stylesheet" href="~/Style/styles.css">
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="UpdatePayment" method="post">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Payment Registration</h5>
+            @Html.HiddenFor(m => m.PaymentEntity.Status, new { Value = "paid" })
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Invoice No</span></label>
+                @Html.TextBoxFor(model => model.PaymentEntity.PaymentID, new { @class = "form-control name-textbox", @readonly = "readonly" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">OrderID</span></label>
+                @Html.TextBoxFor(model => model.PaymentEntity.OrderID, new { @class = "form-control name-textbox", @readonly = "readonly" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">CustomerID</span></label>
+                @Html.TextBoxFor(model => model.PaymentEntity.CustomerID, new { @class = "form-control name-textbox", @readonly = "readonly" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Payment Amount $</span></label>
+                @Html.TextBoxFor(model => model.PaymentEntity.PaymentAmount, new { @class = "form-control name-textbox", @readonly = "readonly" })
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Note</span></label>
+                @Html.TextAreaFor(model => model.PaymentEntity.Notes, new { @class = "form-control name-textbox" })
+            </div>
+
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="PaymentList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.alert("@ViewBag.Message");
+        window.location.href = '@Url.Action("RoleList", "RoleMaintenance")';
+    </script>
+}
+
+
+

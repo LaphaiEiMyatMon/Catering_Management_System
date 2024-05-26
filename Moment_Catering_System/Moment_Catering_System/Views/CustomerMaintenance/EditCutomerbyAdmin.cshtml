@@ -1,0 +1,184 @@
+﻿@model Moment_Catering_System.Models.CustomerMaintenance
+    @using Moment_Catering_System.Common
+    @{
+        ViewBag.Title = "EditCutomerbyAdmin";
+        Layout = "~/Views/Shared/_sideBar.cshtml";
+    }
+
+    <div class="container mt-5 d-flex justify-content-center">
+        <form action="EditCutomerbyAdmin" method="post">
+            <div class="card p-5">
+                <h5 class="title" style=" color: #e7604a;">Customer Information</h5>
+                <div class="row">
+                    <div col-md-3>
+                        @*<img src="data:image/png;base64,@Model.CustomerEntity.Picture" alt="Profile Picture" class="image-size" />*@
+                        <img src="~/Images/login.jpg" alt="Profile Picture" class="image-size" />
+
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.Label("ID :", new { @class = "text-label" })
+                        @Html.DisplayFor(model => model.CustomerEntity.CustomerID)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+
+                        <div col-md-3>
+                            @Html.Label("First Name :", new { @class = "text-label" })
+                            @Html.DisplayFor(model => model.CustomerEntity.FirstName)
+                        </div>
+
+                        <div col-md-3>
+                            @Html.Label("Last Name :", new { @class = "text-label" })
+                            @Html.DisplayFor(model => model.CustomerEntity.LastName)
+                        </div>
+
+                        <div col-md-3>
+
+                        </div>
+
+                        <div col-md-3>
+
+                        </div>
+                    </div>
+
+                    <div class="col">
+
+
+                       
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                @Html.Label("Gender :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.Gender)
+
+
+                @Html.Label("NRC No :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.NrcNo)
+
+
+                @Html.Label("Email :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.Email)
+
+
+                @Html.Label("Address :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.Address)
+
+
+                @Html.Label("Phone No :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.PhoneNo)
+
+
+
+                @Html.Label("Role :", new { @class = "text-label" })
+                @Html.Display("Online User")
+
+
+                @Html.Label("Active :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.IsActive)
+
+                @Html.Label("Branch :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.IsBlackListed)
+
+
+                @Html.Label("Branch :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.CustomerEntity.BlackListedRemarks)
+
+
+
+                <div class="d-flex justify-content-between pt-4 align-items-center">
+                    <a href="CustomerList" class="cancel-btn">Back</a>
+                    <a href="@Url.Action("EditCutomerbyAdmin", "CustomerMaintenance", new { staffID = Model.CustomerEntity.CustomerID })" class="btn btn-danger">
+                        Add to BlackList
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        body {
+            background-color: aliceblue
+        }
+
+        .card {
+            width: 700px;
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3), 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+            }
+
+        .title {
+            color: #e7604a;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .text-label {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .name-textbox {
+            width: 290px;
+            z-index: 28;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-weight: 600
+        }
+
+            .name-textbox:focus {
+                box-shadow: none;
+                border: 2px solid #F7971C
+            }
+
+
+
+        .cancel-btn {
+            background-color: #fff;
+            width: 70px;
+            height: auto;
+            text-align: center;
+            color: #F7971C;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid #F7971C;
+            border-radius: 6px
+        }
+
+            .cancel-btn:hover {
+                border: 2px solid #e44c33;
+                background-color: #fff;
+                color: #e44c33;
+            }
+
+        .label-text-cc-number {
+            position: relative;
+            top: 4px
+        }
+
+        .image-size {
+            width: 100px;
+            height: 100px;
+        }
+    </style>

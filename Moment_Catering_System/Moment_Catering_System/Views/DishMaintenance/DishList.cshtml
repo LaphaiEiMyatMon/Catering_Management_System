@@ -1,0 +1,95 @@
+﻿@model Moment_Catering_System.Models.DishMaintenance
+@{
+    ViewBag.Title = "DishList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/StylesforList.css">
+<script src="~/Scripts/confirmation.js"></script>
+<div class="content-wrapper">
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- Main row -->
+            <div class="row">
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="m-0 title">Dish List</h2>
+                                <hr />
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    DishID
+                                                </th>
+                                                <th>
+                                                    Menu Name
+                                                </th>
+                                                <th>
+                                                    Dish Name
+                                                </th>
+                                                <th>
+                                                    Picture
+                                                </th>
+                                                <th>
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var data in Model.DishList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.DishID)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.MenuName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.DishName)
+                                                    </td>
+                                                    <td>
+                                                        <img src="data:image/png;base64,@data.Picture" alt="Profile Picture" class="image-size" width="100" height="100" />
+                                                    </td>
+                                                    <td>
+
+                                                        <a href="UpdateDish?dishID=@data.DishID">  <i class="fa fa-edit" style="font-size:15.5px;color:forestgreen"></i></a>
+
+                                                        <i class="fas fa-trash-alt delete-icon" style="font-size:15.5px;color:red" onclick="deleteConfirm(event, 'DeleteDish?dishID=@data.DishID')"></i>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="AddDish" class="save-btn" style="float:right">Add Dish</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

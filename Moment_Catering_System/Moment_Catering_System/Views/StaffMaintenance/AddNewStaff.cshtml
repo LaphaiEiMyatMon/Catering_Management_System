@@ -1,0 +1,84 @@
+﻿@model Moment_Catering_System.Models.StaffMaintenance
+@using Moment_Catering_System.Common
+
+@{
+    ViewBag.Title = "AddNewStaff";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="AddNewStaff" method="post" enctype="multipart/form-data" id="CreateForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Staff Registration</h5>
+            @Html.HiddenFor(model => model.StaffEntity.StaffID)
+            <div class="pt-4">
+                @Html.TextBoxFor(model => model.StaffEntity.StaffName, new { @class = "form-control name-textbox", placeholder = "Enter Name", required = "required" })
+            </div>
+
+            <div class="custom-dropdown">
+                <div class="pt-4">
+                    @Html.DropDownListFor(model => model.StaffEntity.BranchNo,ViewOperation.GetDropDownList(Model.BranchList), "Select Branch",
+                                                           new { @class = "form-control name-textbox", required = "required" })
+                </div>
+            </div>
+
+            <div class="pt-4">
+                @Html.DropDownListFor(model => model.StaffEntity.RoleID,ViewOperation.GetDropDownList(Model.RoleList),"Select Role",
+                                                        new { @class = "form-control name-textbox", required = "required" })
+            </div>
+
+            <div class="pt-4">
+                @Html.TextBoxFor(m => m.StaffEntity.Password, new { @type = "password", @class = "form-control name-textbox", placeholder = "Enter Password", required = "required" })
+            </div>
+
+            <div class="pt-4">
+
+                <label for="fileInput" class="form-control name-textbox" style="position: relative; overflow: hidden; display: inline-block;">
+                    <span id="fileNameLabel" style="color:#888">Upload Profile Picture</span>
+                    @Html.TextBoxFor(model => model.StaffEntity.FileBase, new { type = "file", id = "fileInput", style = "position: absolute; font-size: 100px; opacity: 0; right: 0; top: 0; cursor: pointer;", onchange = "displayFileName(this)" })
+                </label>
+
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                <script>
+                    function displayFileName(input) {
+                        var fileName = input.files[0].name;
+                        $("#fileNameLabel").text(fileName);
+                    }
+                </script>
+                @Html.ValidationMessageFor(m => m.StaffEntity.FileBase, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="pt-4">
+                @Html.CheckBoxFor(m => m.StaffEntity.IsActive)
+                @*<input checked="checked" id="isActive" name="IsActive" type="checkbox" />*@
+                @Html.ValidationMessageFor(m => m.StaffEntity.IsActive, "", new { @class = "text-danger", required = "required" })
+                <label>Active</label>
+            </div>
+
+            <div class="d-flex justify-content-between pt-4 align-items-center">
+                <a href="/StaffMaintenance/StaffList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" id="Save">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Apply styles to the file input */
+    .form-control.name-textbox[type="file"] {
+        padding-bottom: 35px; /* Adjust the padding as needed */
+    }
+
+    option:checked,
+    option:hover {
+        color: #fff;
+        background-color: #F7971C;
+    }
+
+    .custom-checkbox:checked {
+        background-color: #00ff00; /* Change this to the desired color */
+        /* Add any other styles you want for the checked state */
+    }
+</style>

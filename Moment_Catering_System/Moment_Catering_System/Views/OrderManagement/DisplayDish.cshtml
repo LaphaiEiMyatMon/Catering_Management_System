@@ -1,0 +1,328 @@
+﻿@model Moment_Catering_System.Models.OrderManagement
+@using Moment_Catering_System.Models
+<link rel="stylesheet" href="~/Style/shoppingcart/style.css">
+<link rel="stylesheet" href="~/Style/styleforButton.css">
+
+<div class="container-fluid top" data-aos="fade-up">
+    <div class="row" style="margin-left:9px">
+        <div class="col-sm-3">
+
+            <div class="side-card">
+
+                <div class="card-body">
+                    <h4 class="text-color"><i class="bi bi-minecart-loaded"></i> Your Selection  </h4><hr />
+
+                    <ul class="b">
+                        <li>@SessionModel.MenuName</li>
+                        <li>@SessionModel.UnitPrice per pax</li>
+                        <li>@SessionModel.NoOfCourse courses</li>
+                    </ul>
+
+                    <ul id="dishList">
+                        Courses
+                        @foreach (var data in Model.DishList)
+                        {
+                            <li class="course">@SessionModel.MinPax x @data.DishName</li>
+                        }
+                    </ul>
+
+                    <button class="changeSelection" onclick="reset()"><i class="bi bi-pencil-square"></i> Change Selection</button>
+                </div>
+            </div>
+            <br />
+            <div class="side-card">
+                <div class="card-body">
+                    <h4 class="text-color"><i class="bi bi-person-plus"></i> Number of Pax</h4><hr />
+
+                    <div class="center">
+                        <p>(Minimum @SessionModel.MinPax pax) | @SessionModel.NoOfCourse courses</p>
+                        <p id="selectedPax">Number of pax selected : </p>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn-minus" onclick="decreasePax()">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                            </span>
+                            <input type="text" id="paxCount" class="form-control input-number" value="@SessionModel.MinPax" min="50" max="500">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn-plus" onclick="increasePax()">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-card" style="margin-top:23px" id="extra">
+
+                <div class="card-body">
+                    <h4 class="text-color"><i class="bi bi-cart-plus"></i> Extra Dish</h4><hr />
+                    <ul id="extraDishList"></ul>
+                </div>
+            </div>
+            <br />
+            <div class="side-card">
+                <div class="card-body">
+                    <h4 class="text-color" id="total-price">Total Price</h4><hr />
+                    <h4 class="text-color" id="grand-total-price">Grand Total Price</h4>
+                    <ul id="totalPrice">
+                        <li id="totalPriceValue">$ </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="row">
+                <h3 class="text-color">Upsize your portion</h3> <br /><br />
+
+                @foreach (var data in Model.DishList)
+                {
+                    <div class="col-sm-4">
+                        <div class="card dish">
+                            <img class="img-size" src="data:image/png;base64,@data.Picture">
+                            <div class="card-body">
+                                <p class="card-text">@data.DishName  $@data.UnitPrice </p>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn-minus" onclick="decreasePortion('@data.DishID')">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                    </span>
+                                    <input type="text" class="form-control input-number" value="0" min="50" max="500" id="portionCount_@data.DishID">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn-plus" onclick="increasePortion('@data.DishID')">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="mb-4">  <button id="btnCheckout" class="save-btn"> Checkout </button></div>
+          
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#extra').hide();
+        $('#grand-total-price').hide();
+        var initialPaxCount = parseInt('@SessionModel.MinPax');
+        updateSelectedPax(initialPaxCount);
+        updateListNumbers(initialPaxCount);
+        updateTotalPrice();
+
+        $("#btnCheckout").on("click", function () {
+            saveSessionData();
+        });
+
+    });
+
+    function reset() {
+        window.location.href = '/OrderManagement/DisplayMenu';
+    }
+     //#region Pax
+    function increasePax() {
+        var paxCountElement = document.getElementById('paxCount');
+        var paxCount = parseInt(paxCountElement.value);
+        paxCount += 10; // Increase pax count by 10
+        paxCountElement.value = paxCount;
+
+        // Update the content of the selectedPax paragraph
+        updateSelectedPax(paxCount);
+        updateListNumbers(paxCount);
+        updateTotalPrice();
+    }
+
+    function decreasePax() {
+        var paxCountElement = document.getElementById('paxCount');
+        var paxCount = parseInt(paxCountElement.value);
+        if (paxCount > 50) {
+            paxCount -= 10; // Decrease pax count by 10
+            paxCountElement.value = paxCount;
+
+            // Update the content of the selectedPax paragraph
+            updateSelectedPax(paxCount);
+            updateListNumbers(paxCount);
+            updateTotalPrice();
+        }
+    }
+
+    function updateSelectedPax(paxCount) {
+        var selectedPaxElement = $('#selectedPax');
+        selectedPaxElement.html("Number of pax selected: <b>" + paxCount + "</b>");
+    }
+
+    //#endregion
+
+     //#region Selection Card
+    function updateListNumbers(paxCount) {
+        // Loop through each list item and update the displayed number
+        $('.course').each(function () {
+            var dishName = $(this).text().split("x")[1].trim();
+            $(this).html(paxCount + " x " + dishName);
+        });
+    }
+
+//#endregion
+
+     //#region Portion
+    function increasePortion(courseId) {
+        var portionCountElement = document.getElementById('portionCount_' + courseId);
+        var portionCount = parseInt(portionCountElement.value);
+        portionCount += 5; // Increase portion count by 5
+        portionCountElement.value = portionCount;
+        $('#extra').show();
+        $('#grand-total-price').show();
+        $('#total-price').hide();
+        updateExtraDishes();
+
+    }
+
+    function decreasePortion(courseId) {
+        var portionCountElement = document.getElementById('portionCount_' + courseId);
+        var portionCount = parseInt(portionCountElement.value);
+        if (portionCount > 0) {
+            portionCount -= 5; // Decrease portion count by 5
+            portionCountElement.value = portionCount;
+            $('#extra').show();
+            $('#grand-total-price').show();
+            $('#total-price').hide();
+            updateExtraDishes();
+        }
+    }
+
+   //#endregion
+
+// Declare extraDishTotal as a global variable
+    var extraDishTotal = 0;
+    const list = [];
+
+    function updateExtraDishes() {
+        var extraDishList = $('#extraDishList');
+        extraDishList.empty(); // Clear previous extra dishes
+
+        // Loop through each dish in the DishList
+        $('.dish').each(function () {
+            var portionCount = parseInt($(this).find('.input-number').val());
+            if (portionCount > 0) {
+                var dishName = $(this).find('.card-text').text().split("$")[0].trim();
+                var unitPrice = parseFloat($(this).find('.card-text').text().split("$")[1].trim()); // Extract unit price from card text
+                var totalPrice = portionCount * unitPrice; // Calculate total price for the dish
+                var listItem = "<li>" + portionCount + " x " + dishName + " ($" + totalPrice.toFixed(2) + ")</li>"; // Include total price in the list item
+                extraDishList.append(listItem);
+
+                var objDish = {
+                    DishID: $(this).find('.input-number').attr('id').split('_')[1],
+                    DishName: dishName,
+                    Quantity: portionCount // Include total price in the object
+                };
+                // Check if the dish with the same DishID already exists in the list
+                var existingIndex = list.findIndex(item => item.DishID === objDish.DishID);
+
+                // If the dish with the same DishID exists, update its Quantity
+                if (existingIndex !== -1) {
+                    list[existingIndex].Quantity = objDish.Quantity;
+                } else {
+                    // If the dish with the same DishID does not exist, add it to the list
+                    list.push(objDish);
+                }
+
+                console.log("Hi", list);
+
+            }
+        });
+
+        // Call extraDishPrice to update extra dish total
+        extraDishPrice();
+    }
+
+        function extraDishPrice() {
+            // Initialize extraDishTotal to zero
+            extraDishTotal = 0;
+
+            // Loop through each dish to calculate extra dish total
+            $('.dish').each(function () {
+                var portionCount = parseInt($(this).find('.input-number').val());
+                if (portionCount > 0) {
+                    var unitPrice = parseFloat($(this).find('.card-text').text().split("$")[1].trim());
+                    extraDishTotal += portionCount * unitPrice;
+                }
+            });
+
+            // Call updateTotalPrice to update the total price
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            var paxCount = parseInt(document.getElementById('paxCount').value);
+            var unitPrice = parseFloat('@SessionModel.UnitPrice');
+            var totalPrice = paxCount * unitPrice;
+
+            // Calculate total price including extra dishes
+            var total = totalPrice + extraDishTotal;
+
+            // Update total price element
+            var totalPriceElement = document.getElementById('totalPriceValue');
+            totalPriceElement.textContent = '$ ' + total.toFixed(2);
+
+        }
+            //#endregion
+
+    function saveSessionData() {
+
+        var extraDishList = [];
+        $('#extraDishList li').each(function () {
+            extraDishList.push($(this).text()); // Pushing the text content of each <li> item into the array
+        });
+
+        var totalPrice = parseFloat($('#totalPriceValue').text().replace('$', ''));
+        var selectedPax = parseInt($('#selectedPax').text().trim().split(":")[1].trim());
+
+        var dataToSend = {
+            ExtraDishList: list,
+            StringExtraDishList: extraDishList,
+            TotalPrice: totalPrice,
+            SelectedPax: selectedPax
+        };
+
+        $.ajax({
+            url: '/OrderManagement/CheckandSaveSession',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(dataToSend),
+            success: function (response) {
+                console.log(response);
+                var cusID = '@LoginInfo.UserID';
+
+                if (cusID) {
+                    window.location.href = '/OrderManagement/Checkout';
+                } else {
+                    Swal.fire({
+                        title: "To place an order you need to Sign up or Login",
+                        html: "Don't have an account? <a href='/CustomerMaintenance/RegisterCustomer' style='color: #e44c33'>Sign up Here</a>",
+                        icon: "info",
+                        showConfirmButton: false,
+                        allowOutsideClick: true,
+                        footer: 'Already have an account? <a href="/CustomerMaintenance/Login" style="color:#e44c33">Login Here</a>'
+                    });
+
+                }
+
+            },
+            error: function (xhr, status, error) {
+
+                console.error(xhr.responseText);
+                // Handle error if needed
+            }
+        });
+    }
+</script>
+

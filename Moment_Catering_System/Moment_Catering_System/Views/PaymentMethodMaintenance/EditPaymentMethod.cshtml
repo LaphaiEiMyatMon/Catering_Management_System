@@ -1,0 +1,25 @@
+﻿@model Moment_Catering_System.Models.PaymentMethodMaintenance
+@using Moment_Catering_System.Models
+@{
+    ViewBag.Title = "EditPaymentMethod";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="EditPaymentMethod" method="post" id="EditForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Update Payment Method</h5>
+            @Html.HiddenFor(model => model.PaymentMethodEntity.PaymentMethodID)
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Payment Method</span></label>
+                @Html.TextBoxFor(model => model.PaymentMethodEntity.PaymentMethod, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+            </div>
+
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="PaymentMethodList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" id="Update">Update</button>
+            </div>
+        </div>
+    </form>
+</div>

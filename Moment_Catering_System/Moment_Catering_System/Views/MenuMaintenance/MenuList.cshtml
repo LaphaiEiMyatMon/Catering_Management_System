@@ -1,0 +1,86 @@
+﻿@model Moment_Catering_System.Models.MenuMaintenance
+@{
+    ViewBag.Title = "MenuList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/StylesforList.css" />
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="m-0 title">Menu List</h2>
+                                <hr />
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Menu Name</th>
+                                                <th>Min Pax</th>
+                                                <th>Unit Price</th>
+                                                <th>No Of Course</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var data in Model.MenuList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.MenuID)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.MenuName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.MinPax)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.UnitPrice)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.NoOfCourse)
+                                                    </td>
+                                                    <td>
+                                                        <a href="/MenuMaintenance/EditMenu?MenuID=@data.MenuID">  <i class="fa fa-edit" style="font-size:15.5px;color:forestgreen"></i></a>
+
+                                                        <i class="fas fa-trash-alt" style="font-size:15.5px;color:red" onclick="deleteConfirm(event,'/MenuMaintenance/DeleteMenu?MenuID=@data.MenuID')"> </i>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="AddMenu" class="save-btn" style="float:right" id="Save">Add New Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

@@ -1,0 +1,43 @@
+﻿@model Moment_Catering_System.Models.IngredientMaintenance
+
+@{
+    ViewBag.Title = "EditIngredient";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styles.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="EditIngredient" method="post" id="EditForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">
+                Edit Ingredient
+            </h5>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">No</span></label>
+                @Html.TextBoxFor(model => model.IngredientEntity.IngredientID, new { @class = "form-control name-textbox", placeholder = "", @readonly = "readonly", required = "required" })
+
+            </div>
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Ingredient Name</span></label>
+                @Html.TextBoxFor(model => model.IngredientEntity.IngredientName, new { @class = "form-control name-textbox", placeholder = "",  required = "required" })
+
+            </div>
+
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Stock Qty (kg)</span></label>
+                @Html.TextBoxFor(model => model.IngredientEntity.StockQty, new { @class = "form-control name-textbox", placeholder = "", required = "required" })
+
+            </div>
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="IngredientList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" style="width:80px" id="Update">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+

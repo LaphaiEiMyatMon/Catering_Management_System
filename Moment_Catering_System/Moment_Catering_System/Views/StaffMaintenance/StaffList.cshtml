@@ -1,0 +1,134 @@
+﻿@model Moment_Catering_System.Models.StaffMaintenance
+@{
+    /**/
+
+    ViewBag.Title = "StaffList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderList.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container" style="max-width:1300px">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-color">Staff List</h4>
+                                <fieldset class="pfieldset">
+                                    <legend class="plegend">Search Filter</legend>
+                                    <form action="StaffList" method="post">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-4">
+                                                            <label>Staff ID</label>
+                                                            @Html.TextBoxFor(model => model.StaffEntity.StaffID, new { @class = "form-control", id = "staffID" })
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Name</label>
+                                                            @Html.TextBoxFor(model => model.StaffEntity.StaffName, new { @class = "form-control", id = "staffName" })
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4" style="margin-top:47px">
+
+                                                    <button type="submit" class="btn btn-success mr-2" style="font-weight: 600;"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                                    <a href="StaffList" class="btn list-btn"><i class="fa fa-list" aria-hidden="true"></i> List All</a>
+                                                    <button type="reset" class="btn btn-danger" id="btnClearAll" style="font-weight: 600;"><i class="fa fa-times" aria-hidden="true" style="color:white;"></i> Clear</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <br />
+                                </fieldset>
+
+                                <br />
+                                <p style="font-size:12px">Row count : @Model.StaffList.Count</p>
+                                @if (Model.StaffList.Count > 0)
+                                {
+                                    <div class="table-responsive" style="overflow-x:auto">
+                                        <div style="overflow-x:auto;">
+                                            <table>
+                                                <tr>
+                                                    <th>Staff ID</th>
+                                                    <th>Name</th>
+                                                    <th>Branch</th>
+                                                    <th>Role</th>
+
+                                                    <th>Action</th>
+                                                </tr>
+
+                                                @foreach (var data in Model.StaffList)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => data.StaffID)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.StaffName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.BranchName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.RoleName)</td>
+
+                                                        <td>
+                                                            <a href="DetailStaff?staffID=@data.StaffID"><i class="fa fa-eye" aria-hidden="true"></i> Detail</a>
+
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p><i class="bi bi-emoji-frown"></i> No record found.</p>
+                                }
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="AddNewStaff" class="save-btn" style="float:right">Add New Staff</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnClearAll").on("click", function () {
+            // Reset the form fields
+            $("#staffName").val("");
+            $("#staffID").val("");
+
+           
+
+            // Prevent default form submission behavior
+            return false;
+        });
+    });
+</script>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+        };
+    </script>
+
+}

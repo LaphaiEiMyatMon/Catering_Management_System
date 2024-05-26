@@ -1,0 +1,130 @@
+﻿
+@model Moment_Catering_System.Models.PaymentMaintenance
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="centered">
+
+        <div class="row">
+          
+            <div class="col">
+                <form action="UpdatePayment" method="post">
+                    @Html.HiddenFor(model => Model.PaymentEntity.PaymentID)
+                    @Html.HiddenFor(m => m.PaymentEntity.Status, new { Value = "paid" })
+                    <div class="card">
+                        <div class="row">
+                            <p>
+                                Your Invoice<span style="float:right"><a href="/CustomerMaintenance/CustomerOrderList"><i class="bi bi-x-circle-fill"></i></a></span>
+                            </p>
+                            <div class="pt-2">
+                                <label>Invoice No :</label> @Html.DisplayFor(model => Model.PaymentEntity.PaymentID)
+                            </div>
+                            <div class="pt-2">
+                                <label>Order ID :</label> @Html.DisplayFor(model => Model.PaymentEntity.OrderID)
+                            </div>
+                            <div class="pt-2">
+                                <label>Total Amount :</label> @Html.DisplayFor(model => Model.PaymentEntity.PaymentAmount)
+                            </div>
+
+
+
+                        </div>
+
+                        <hr />
+                        <p>
+                            Accepted Payment Methods
+                        </p>
+
+                        <div class="row">
+                            <h5>Cards</h5>
+
+
+                            <label>Accepted Cards</label>
+
+                            <div class="icon-container">
+                                <i class="fa fa-cc-visa" style="color:navy; font-size:50px; margin:12px;" onclick="showmMsg()"></i>
+                                <i class="fa fa-cc-amex" style="color:blue;font-size:50px;margin:12px;" onclick="showmMsg()"></i>
+                                <i class="fa fa-cc-mastercard" style="color:red;font-size:50px;margin:12px;" onclick="showmMsg()"></i>
+                                <i class="fa fa-cc-discover" style="color:orange;font-size:50px;margin:12px;" onclick="showmMsg()"></i>
+                                <i class="fa fa-cc-paypal" style="color:orange;font-size:50px;margin:12px;" onclick="showmMsg()"></i>
+                            </div>
+
+                            <hr />
+
+                            <h5>Banking</h5>
+                            <label>Accepted Banking</label>
+
+                            <div class="icon-container">
+                                <img src="~/Images/kbz.jpg" alt="Alternate Text" onclick="showmMsg()" />
+                                <img src="~/Images/aya.png" alt="Alternate Text" onclick="showmMsg()" />
+                                <img src="~/Images/cb.png" alt="Alternate Text" onclick="showmMsg()" />
+                            </div>
+                            <hr />
+                            <h5>Mobile Wallet</h5>
+                            <label>Accepted Mobile Wallet</label>
+
+                            <div class="icon-container">
+                                <img src="~/Images/wave.png" alt="Alternate Text" onclick="showmMsg()" />
+                                <img src="~/Images/kpay.png" alt="Alternate Text" onclick="showmMsg()" />
+                                <img src="~/Images/uab.jpg" alt="Alternate Text" onclick="showmMsg()" />
+                            </div>
+
+
+
+                            <div class="pt-4">
+                                <button type="submit" class="save-btn">Pay Now</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .card {
+        background-color: #FAF8F5;
+        padding: 30px;
+        margin: 0 auto; /* Centers the card horizontally */
+    width:50%;}
+
+    h5 {
+        color: #e44c33;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+        margin: 12px;
+    }
+
+    .centered {
+        display: flex;
+        justify-content: center;
+    }
+
+    p {
+        color: #e44c33;
+        margin-bottom: 20px;
+    }
+
+    a {
+        color: #e44c33;
+    }
+
+        a:hover {
+            color: #F7971C;
+        }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function showmMsg() {
+        Swal.fire({
+
+            text: "We will redirect you to relevant payment gateways. Please approve at your account to make the transaction successful.",
+            icon: "info"
+        });
+    }
+</script>

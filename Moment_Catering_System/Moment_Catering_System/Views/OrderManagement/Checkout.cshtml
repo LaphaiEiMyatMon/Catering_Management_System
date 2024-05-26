@@ -1,0 +1,361 @@
+﻿
+@model Moment_Catering_System.Models.OrderManagement
+@using Moment_Catering_System.Models
+@using Moment_Catering_System.Common
+<link rel="stylesheet" href="~/Style/shoppingcart/style.css">
+<link rel="stylesheet" href="~/Style/styleforButton.css">
+<link rel="stylesheet" href="~/Style/styleforCheckout.css">
+<link rel="stylesheet" href="~/fontawsome/css/font-awesome.min.css">
+<div class="container-fluid top" data-aos="fade-up">
+    <div class="row" style="margin-left:9px">
+        <div class="col-sm-3">
+
+            <div class="side-card">
+
+                <div class="card-body">
+                    <h3 class="text-color">Order Summary</h3> <hr />
+                    <h4 class="text-color"><i class="bi bi-minecart-loaded"></i> Your Selection</h4>
+
+                    <ul class="b">
+                        <li>@SessionModel.MenuName</li>
+                        <li>@SessionModel.UnitPrice per pax</li>
+                        <li>@SessionModel.SelectedPax Pax Selected </li>
+                        <li>@SessionModel.NoOfCourse Courses </li>
+
+                    </ul>
+                    <ol>
+                        Courses
+                        @foreach (var data in SessionModel.DishList)
+                        {
+                            <li class="course">@data.DishName</li>
+                        }
+                    </ol>
+                    <button class="changeSelection" onclick="reset()"><i class="bi bi-pencil-square"></i> Change Selection</button>
+                </div>
+            </div>
+            <br />
+
+
+            <div class="side-card">
+
+                <div class="card-body">
+                    <h4 class="text-color"><i class="bi bi-cart-plus"></i> Extra Dish</h4>
+                    <ul id="extraDishList">
+
+                        @foreach (var data in SessionModel.StringExtraDishList)
+                        {
+                            <li class="course">@data</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <br />
+            <div class="side-card">
+                <div class="card-body">
+                    <h4 class="text-color">Grand Total Price</h4>
+                    <ul id="totalPrice">
+                        <li id="totalPriceValue">$ @SessionModel.TotalPrice</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-9">
+            <form action="PlaceOrder" method="post" id="CreateForm">
+                <div class="side-card">
+                    <div class="row" style="background-color:#FAF8F5;">
+
+                        <div class="col-50 ">
+                            <h3 class="text-color"><i class="bi bi-truck"></i> Delivery Detail </h3>
+
+
+                            <div class="pt-4">
+                                <label><i class="fa fa-calendar" aria-hidden="true"></i> Choose Delivery Date</label>
+                                @Html.TextBoxFor(model => model.OrderEntity.DeliveryDate, new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd"), id = "deliDate" })
+
+                            </div>
+                            <div class="pt-4">
+                                <label><i class="fa fa-clock-o" aria-hidden="true"></i> Choose Delivery Time</label>
+                                <small>Delivery hours are 6am to 8pm</small>
+                                @Html.TextBoxFor(model => model.OrderEntity.DeliveryTime, new { @class = "form-control", type = "time", min = "06:00", max = "20:00", id = "deliTime" })
+
+                            </div>
+
+                            <div class="pt-4">
+                                <label><i class="fa fa-user"></i> Full Name</label>
+                                @Html.TextBox("UserName", LoginInfo.UserName, new { @class = "form-control readonly", type = "text", @readonly = "readonly" })
+                            </div>
+                            <div class="pt-4">
+                                <label><i class="fa fa-envelope"></i> Email</label>
+                                @Html.TextBox("Email", LoginInfo.Email, new { @class = "form-control readonly", type = "text", @readonly = "readonly" })
+                            </div>
+
+                            <div class="pt-4">
+                                <label><i class="bi bi-telephone-fill"></i> Phone No</label>
+                                @Html.TextBoxFor(model => model.CustomerEntity.PhoneNo, new { @class = "form-control", type = "text", placeholder = "09-xxxxxxxxx", id = "phNo" })
+                            </div>
+                            <div class="pt-4">
+                                <label><i class="fa fa-address-card-o"></i> Address</label>
+                                @Html.TextAreaFor(model => model.OrderEntity.DeliveryAddress, new { @class = "form-control", type = "text", placeholder = "No.123, Rose Street, Latha Township, Yangon", rows = "4", id = "address" })
+                            </div>
+
+                            <div class="pt-4">
+                                <label><i class="fa fa-sticky-note-o" aria-hidden="true"></i> Note</label>
+                                @Html.TextAreaFor(model => model.OrderEntity.Note, new { @class = "form-control", type = "text" })
+                            </div>
+                        </div>
+
+                        <div class="col-50 ">
+                            <h3 class="text-color"><i class="bi bi-credit-card-2-back-fill"></i> Payment </h3>
+                            <label><i class="bi bi-check2-circle"></i> Choose Payment Method</label>
+
+                            @Html.DropDownListFor(model => model.PaymentEntity.PaymentMethodID,ViewOperation.GetDropDownList(Model.GetPaymentMethodList()), "Choose Here 🡣 ",
+                    new { @class = "form-control",  id = "payment" })
+
+                            <br />
+
+                            <div id="card">
+                                <label>Accepted Cards</label>
+
+                                <div class="icon-container">
+                                    <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                    <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                    <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                    <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label>Name on Card</label>
+                                        @Html.TextBoxFor(model => model.PaymentEntity.CardHolderName, new { @class = "form-control", type = "text", placeholder = "John Smith", id = "CardHolderName" })
+                                    </div>
+                                    <div class="col-50">
+                                        <label>Card number</label>
+                                        @Html.TextBoxFor(model => model.PaymentEntity.CardNumber, new { @class = "form-control", type = "text", placeholder = "1111-2222-3333-4444", id = "CardNumber" })
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label>Expiry</label>
+                                        @Html.TextBoxFor(model => model.PaymentEntity.ExpirationDate, new { @class = "form-control", type = "text", placeholder = "MM/YY", id = "ExpirationDate" })
+                                    </div>
+                                    <div class="col-50">
+                                        <label>CVV</label>
+                                        @Html.TextBoxFor(model => model.PaymentEntity.CVV, new { @class = "form-control", type = "text", placeholder = "352", id = "CVV" })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="bank">
+                                <div class="pt-4">
+                                    <label><i class="bi bi-person-square"></i> Bank Account No</label>
+                                    @Html.TextBoxFor(model => model.PaymentEntity.AccountNumber, new { @class = "form-control", type = "text", placeholder = "1111222233334444", id = "AccountNumber" })
+                                </div>
+                                <div class="pt-4">
+                                    <label><i class="fa fa-address-card-o"></i> Billing Address</label>
+                                    @Html.TextBoxFor(model => model.PaymentEntity.BillingAddress, new { @class = "form-control", type = "text", placeholder = "542 W. 15th Street", id = "BillingAddress" })
+                                </div>
+                            </div>
+                            <div id="mobile_wallet">
+                                <div class="pt-4">
+                                    <label><i class="bi bi-person-badge"></i> Account No</label>
+                                    @Html.TextBoxFor(model => model.PaymentEntity.MobileWalletAcc, new { @class = "form-control", type = "text", placeholder = "09xxxxxxxxx", id = "MobileWalletAcc" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4">
+
+                            <a href="#" style="color:#e44c33" onclick="tc()">Please click here to read Terms and Conditions before submit</a>
+                        </div>
+                        <div class="pt-4">
+                            <p>
+                                <input type="checkbox" name="name" value="" checked disabled/> <span> Agree with Terms and Conditions</span>
+
+                            </p>
+                            </div>
+
+                    </div>
+
+                    <input type="submit" value="Submit" class="save-btn" id="btnSubmit">
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Initially hide all payment method divs
+        $("#card, #bank, #mobile_wallet").hide();
+
+        // Listen for changes in the dropdown
+        $("#payment").change(function () {
+            var selectedValue = $(this).val().trim();;
+            var show = selectedValue.toLowerCase();
+            console.log('Hi', show);
+            switch (show) {
+                case "2":
+                    $("#card, #mobile_wallet").hide();
+                    $("#bank").show();
+                    break;
+                case "3":
+                    $("#bank, #mobile_wallet").hide();
+                    $("#card").show();
+                    break;            
+                case "4":
+                    $("#card, #bank").hide();
+                    $("#mobile_wallet").show();
+                    break;
+                default:
+                    $("#card, #bank, #mobile_wallet").hide();
+            }
+        });
+
+        $('#btnSubmit').on('click', function (event) {
+            if (!checkValidity()) { // Check HTML validation
+                event.preventDefault(); // Prevent default behavior of form submission
+                return;
+            }
+
+            // Display confirmation dialog
+            event.preventDefault();
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to place this order?",
+                icon: "question",
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Display thank you alert
+                    Swal.fire({
+                        html: '<img src="/Images/thanktwo.gif" style="width: 400px; height: 320px;"> <p>Your order was successfully saved!</p>',
+                        text: "Your order was successfully saved!",
+                        showConfirmButton: true,
+                        allowOutsideClick: true
+                    });
+
+                    // Submit the form after the confirmation
+                    setTimeout(function () {
+                        $("#CreateForm").submit();
+                    }, 1000);
+                } else if (result.isDenied) {
+                    Swal.fire("Not saved", "", "info");
+                }
+            });
+        });
+
+    });
+
+    function checkValidity() {
+        var deliDate = $("#deliDate").val();
+        var deliTime = $("#deliTime").val();
+        var phNo = $("#phNo").val();
+        var address = $("#address").val();
+        var payment = $("#payment").val();
+
+        if (!deliDate) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Select Delivery Date!",
+            });
+            return false;
+        } else if (!deliTime) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Select Delivery Time!",
+            });
+            return false;
+        } else if (!phNo) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Enter Phone Number!",
+            });
+            return false;
+        } else if (!address) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Enter Address!",
+            });
+            return false;
+        } else if (!payment) {
+            Swal.fire({
+                icon: "warning",
+                text: "Please Choose Payment Method!",
+            });
+            return false;
+        } else if (payment == "2") { // Bank
+            var accountNumber = $("#AccountNumber").val();
+            var billingAddress = $("#BillingAddress").val();
+            if (!accountNumber || !billingAddress) {
+                Swal.fire({
+                    icon: "warning",
+                    text: "Please Enter Bank Account Number and Billing Address!",
+                });
+                return false;
+            }
+        } else if (payment === "3") { // Card
+            var cardHolderName = $("#CardHolderName").val();
+            var cardNumber = $("#CardNumber").val();
+            var expirationDate = $("#ExpirationDate").val();
+            var cvv = $("#CVV").val();
+
+            if (!cardHolderName || !cardNumber || !expirationDate || !cvv) {
+                Swal.fire({
+                    icon: "warning",
+                    text: "Please Fill in all Card Details!",
+                });
+                return false;
+            }
+        } else if (payment == "4") { // Mobile Wallet
+            var mobileWalletAcc = $("#MobileWalletAcc").val();
+            if (!mobileWalletAcc) {
+                Swal.fire({
+                    icon: "warning",
+                    text: "Please Enter Mobile Wallet Account Number!",
+                });
+                return false;
+            }
+        }
+
+        return true;
+    }
+    function reset() {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This will reset everything!!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/OrderManagement/DisplayMenu';
+            }
+        });
+    }
+
+    function tc() {
+
+        Swal.fire({
+            title: "Terms and Conditions",
+            html: "<ul style='text-align:left;'><li>All orders are subject to acceptance and availability.</li><li class='mt-2'>Orders placed by you are offers to purchase menu packages under these terms and conditions.</li><li class='mt-2'>We reserve the right to refuse any order placed by you within 48 hours.</li><li class='mt-2'>Prices of products are subject to change without notice. However, once you have placed an order, the price will remain fixed.</li><li class='mt-2'>We accept payment by credit or debit card or cash or bank or mobile wallet.</li><li class='mt-2'>All products are subject to availability. We will inform you if a product is not available and offer alternatives if possible.</li><li class='mt-2'>We reserve the right to cancel the order if we are unable to fulfill it for any reason.</li><li class='mt-2'>Once an order has been dispatched, we cannot accept any cancellations or changes to the order.</li><li class='mt-2'>Returns and exchanges are subject to our returns policy.</li><li class='mt-2'>We reserve the right to change these terms and conditions at any time without notice.</li></ul>",
+            icon: "info",
+            showConfirmButton: true,
+ 
+        });
+    }
+
+
+</script>

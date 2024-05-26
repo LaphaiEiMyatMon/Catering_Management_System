@@ -1,0 +1,149 @@
+﻿@model Moment_Catering_System.Models.StaffMaintenance
+@using Moment_Catering_System.Common
+
+
+@{ 
+    ViewBag.Title = "DetailStaff";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+
+
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="/StaffMaintenance/AddNewStaff" method="post">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Staff Information</h5>
+            @Html.HiddenFor(model => model.StaffEntity.StaffID)
+            <div class="pt-4">
+
+                <img src="data:image/png;base64,@Model.StaffEntity.ProfilePicture" alt="Profile Picture" class="image-size" />
+                <br /> <br />
+                @Html.Label("ID :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.StaffEntity.StaffID)
+                <br />
+                @Html.Label("Name :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.StaffEntity.StaffName)
+                <br />
+                @Html.Label("Role :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.StaffEntity.RoleName)
+                <br />
+                @Html.Label("Branch :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.StaffEntity.BranchName)
+                <br />
+                @Html.Label("Active :", new { @class = "text-label" })
+                @Html.DisplayFor(model => model.StaffEntity.Active)
+            </div>
+
+
+            <div class="d-flex justify-content-between pt-4 align-items-center">
+                <a href="/StaffMaintenance/StaffList" class="cancel-btn">Back</a>
+                <a href="@Url.Action("UpdateStaff", "StaffMaintenance", new { staffID = Model.StaffEntity.StaffID })" class="save-btn">
+                    Update
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: aliceblue
+    }
+
+    .card {
+        width: 400px;
+        border-radius: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3), 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+        }
+
+
+
+    .title {
+        color: #e7604a;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+
+    .text-label {
+        font-size: 17px;
+        font-weight: 600;
+
+    }
+
+    .name-textbox {
+        width: 290px;
+        z-index: 28;
+        border: 2px solid #ced4da;
+        border-radius: 6px;
+        font-weight: 600
+    }
+
+        .name-textbox:focus {
+            box-shadow: none;
+            border: 2px solid #F7971C
+        }
+
+
+
+
+
+    .save-btn {
+        background-color: #F7971C;
+        width: 70px;
+        height: 40px;
+        color: #fff;
+        margin-right: 15px;
+        padding-top: 7px;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+        border: 2px solid #F7971C;
+        border-radius: 6px
+    }
+
+        .save-btn:hover {
+            border: 2px solid #e44c33;
+            background-color: #e44c33;
+            color: #fff;
+        }
+
+
+
+    .cancel-btn {
+        background-color: #fff;
+        width: 70px;
+        height: 40px;
+        text-align: center;
+        color: #F7971C;
+        padding-top: 7px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: 2px solid #F7971C;
+        border-radius: 6px
+    }
+
+        .cancel-btn:hover {
+            border: 2px solid #e44c33;
+            background-color: #fff;
+            color: #e44c33;
+        }
+
+    .label-text-cc-number {
+        position: relative;
+        top: 4px
+    }
+
+    .image-size{
+        width: 100px;
+        height:100px;
+
+    }
+
+</style>

@@ -1,0 +1,36 @@
+﻿@model Moment_Catering_System.Models.MenuTCMaintenance
+
+@{
+    ViewBag.Title = "AddMenuTC";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/styles.css">
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="/MenuTCMaintenance/EditMenuTC" method="post">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Add MenuTC</h5>
+            @Html.HiddenFor(model => model.MenuTCEntity.TCID)
+            <div class="pt-4">
+                @Html.TextBoxFor(model => model.MenuTCEntity.MenuID, new { @class = "form-control name-textbox", placeholder = "Enter Menu Name" })
+            </div>
+            <div class="pt-4">
+                @Html.TextBoxFor(model => model.MenuTCEntity.TCDetail, new { @class = "form-control name-textbox", placeholder = "Enter Min Pax", type = "number" })
+            </div>
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="/MenuTCMaintenance/MenuTCList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.alert("@ViewBag.Message");
+        window.location.href = '@Url.Action("MenuTCList", "MenuTCMaintenance")';
+    </script>
+}

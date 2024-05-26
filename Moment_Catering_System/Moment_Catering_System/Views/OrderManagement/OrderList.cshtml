@@ -1,0 +1,171 @@
+﻿@model Moment_Catering_System.Models.OrderManagement
+@using Moment_Catering_System.Common
+@{
+    ViewBag.Title = "OrderList";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderList.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container" style="max-width:1300px">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-color">Order List</h4>
+                                <fieldset class="pfieldset">
+                                    <legend class="plegend">Search Filter</legend>
+                                    <div class="container">
+                                        <form action="OrderList" method="post">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-2">
+                                                            <label>Order ID</label>
+                                                            @Html.TextBoxFor(model => model.OrderEntity.OrderID, new { @class = "form-control", id = "orderID" })
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <label>Customer ID</label>
+                                                            @Html.TextBoxFor(model => model.OrderEntity.CustomerID, new { @class = "form-control", id = "cusID" })
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Status</label>
+                                                            <div class="form-control">
+                                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "pending", new { id = "rdoPending" })
+                                                                <label for="rdoReject">Pending</label>
+
+                                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "approve", new { id = "rdoApprove" })
+                                                                <label for="rdoApprove">Approve</label>
+                                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "cancel", new { id = "rdoCancel" })
+                                                                <label for="rdoReject">Cancel</label>
+
+                                                                @Html.RadioButtonFor(model => model.OrderEntity.Status, "reject", new { id = "rdoReject" })
+                                                                <label for="rdoReject">Reject</label>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-3">
+                                                            <label>Menu</label>
+                                                            @Html.DropDownListFor(model => model.OrderEntity.MenuID,ViewOperation.GetDropDownList(Model.GetMenuListDropDown()),"Select Menu",
+                                                       new { @class = "form-control name-textbox", id = "menuID" })
+                                                        </div>
+
+
+
+                                                        <div class="col-md-3">
+                                                            <label>Delivery Time</label>
+                                                            @Html.TextBoxFor(model => model.OrderEntity.DeliveryTime, new { @class = "form-control", type = "time", id = "deliTime" })
+
+
+
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label>Delivery Date</label>
+                                                            @Html.TextBoxFor(model => model.OrderEntity.DeliveryDate, new { @class = "form-control", type = "date", id = "deliDate" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4" style="margin-top:100px">
+
+                                                    <button type="submit" class="btn btn-success mr-2" style="font-weight: 600;"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                                    <a href="OrderList" class="btn list-btn"><i class="fa fa-list" aria-hidden="true"></i> List All</a>
+                                                    <button type="reset" class="btn btn-danger" id="btnClearAll"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div><br />
+                                </fieldset>
+
+                                <br />
+                                <p style="font-size:14px;">Row count : @Model.OrderList.Count <span style="float:right"><a href="ExportExcel" class="btn btn-success">Export to Excel</a></span></p><br />
+                                @if (Model.OrderList.Count > 0)
+                                {
+                                    <div class="table-responsive" style="overflow-x:auto">
+                                        <div style="overflow-x:auto;">
+                                            <table>
+                                                <tr>
+
+                                                    <th>OrderID</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Menu</th>
+                                                    <th>Selected Pax</th>
+                                                    <th>Delivery Date</th>
+                                                    <th>Delivery Time</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+
+                                                @foreach (var data in Model.OrderList)
+                                                {
+                                                    <tr>
+
+                                                        <td>@Html.DisplayFor(modelItem => data.OrderID)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.CustomerEntity.FirstName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.CustomerEntity.LastName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.MenuEntity.MenuName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.DishQuantity)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.Date)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.DeliveryTime)</td>
+                                                        <td>@Html.DisplayFor(modelItem => data.Status)</td>
+                                                        <td><a href="/OrderManagement/OrderDetail?orderID=@data.OrderID"><i class="fa fa-eye" aria-hidden="true"></i> Detail</a></td>
+                                                        <td></td>
+                                                    </tr>
+                                                }
+                                         </table>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <p><i class="bi bi-emoji-frown"></i> No record found.</p>
+                                }
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="/OrderManagement/DisplayMenu" class="save-btn" style="float:right">Place Order</a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnClearAll").on("click", function () {
+            // Reset the form fields
+            $("#orderID").val("");
+            $("#cusID").val("");
+            $("#menuID").val($("#menuID option:first").val());
+            $("#rdoPending").prop('checked', false);
+            $("#rdoApprove").prop('checked', false);
+            $("#rdoReject").prop('checked', false);
+            $("#rdoCancel").prop('checked', false);
+            $("#deliDate").val("");
+            $("#deliTime").val("");
+
+            // Prevent default form submission behavior
+            return false;
+        });
+    });
+</script>

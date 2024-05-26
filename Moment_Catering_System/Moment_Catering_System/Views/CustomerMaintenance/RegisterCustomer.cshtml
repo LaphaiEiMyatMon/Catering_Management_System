@@ -1,0 +1,71 @@
+﻿@model Moment_Catering_System.Models.CustomerMaintenance
+@using Moment_Catering_System.Models
+<link rel="stylesheet" href="~/Style/styleforRegister.css">
+
+<div class="wrapper container-fluid">
+    <div class="inner">
+        <img src="~/Images/image-1.png" alt="" class="image-1">
+        <form action="RegisterCustomer" method="post" id="CreateForm">
+            <h3>Create Account</h3>
+            <div class="form-holder">
+                @Html.TextBoxFor(model => model.CustomerEntity.FirstName, new { @class = "form-control", placeholder = "*First Name", required = "required" })
+            </div>
+            <div class="form-holder">
+                @Html.TextBoxFor(model => model.CustomerEntity.LastName, new { @class = "form-control", placeholder = "*Last Name", required = "required" })
+            </div>
+            <div class="form-holder">
+                @Html.TextBoxFor(model => model.CustomerEntity.Email, new { @class = "form-control", placeholder = "*Email", required = "required", type = "email" })
+            </div>
+            <div class="form-holder">
+                @Html.TextBoxFor(model => model.CustomerEntity.Password, new { @class = "form-control", placeholder = "*Password", required = "required", type = "password", minlength = "8" })
+            </div>
+            <div class="form-holder">
+            </div>
+            <button type="submit" class="save-btn" id="Save" onclick="aler()">
+                Save
+            </button>
+            <br />
+            <br />
+            <p>
+                Have already an account? <a href="Login" class="text-color"><u>Login here</u></a>
+            </p>
+        </form>
+        <img src="~/Images/image-2.png" alt="" class="image-2">
+    </div>
+</div>
+
+
+<!-- Include SweetAlert script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
+@if (ViewBag.Message != null)
+{
+    if (ViewBag.Message == "false")
+    {
+        <script>
+            // Show error message using SweetAlert
+            Swal.fire({
+                title: "Oops...",
+                text: "This email is already in use",
+                icon: "error"
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            // Show success message using SweetAlert
+            Swal.fire({
+                title: "Success!",
+                icon: "success",
+                timer: 1000
+            }).then(function () {
+                // Redirect to login page after 1 second
+                window.location.href = "Login";
+            });
+        </script>
+    }
+}
+
+
+

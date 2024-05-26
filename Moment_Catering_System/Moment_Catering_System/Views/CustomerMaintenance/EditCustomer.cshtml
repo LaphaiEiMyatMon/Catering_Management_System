@@ -1,0 +1,120 @@
+﻿@model Moment_Catering_System.Models.CustomerMaintenance
+@using Moment_Catering_System.Common
+@using Moment_Catering_System.Common.Const
+@using Moment_Catering_System.Models
+
+<link rel="stylesheet" href="~/Style/styleforButton.css">
+<script src="~/Scripts/confirmation.js"></script>
+
+<input type="hidden" id="userID" value="@LoginInfo.UserID" />
+<div class="container rounded bg-white mt-5 mb-5">
+    <form action="EditCustomer" method="post" enctype="multipart/form-data" id="EditForm">
+        @Html.HiddenFor(model => model.CustomerEntity.CustomerID)
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        @{
+                            var imageSource = !string.IsNullOrEmpty(Model.CustomerEntity.Picture)
+                                ? "data:image/png;base64," + Model.CustomerEntity.Picture
+                                : "/Images/profile.jpg";
+                        }
+                        <img class="rounded-circle mt-5" width="150" src="@imageSource">
+                        <span class="font-weight-bold">@Model.CustomerEntity.FirstName</span>
+                        <span class="text-black-50">@Model.CustomerEntity.Email</span>
+                    </div>
+                </div>
+
+                <div class="col-md-7 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right" style="color:#e44c33">Profile Settings</h4>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label> First Name</label>
+                                @Html.TextBoxFor(model => model.CustomerEntity.FirstName, new { @class = "form-control", type = "text", placeholder = "July" })
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels"> Last Name</label>
+                                @Html.TextBoxFor(model => model.CustomerEntity.LastName, new { @class = "form-control", type = "text", placeholder = "Rose" })
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label> Email</label>
+                                @Html.TextBoxFor(model => model.CustomerEntity.Email, new { @class = "form-control", type = "text", placeholder = "john@gmail.com" })
+                            </div>
+                            <div class="col-md-5">
+                                <label> Profile Picture</label>
+                                <label for="fileInput" class="form-control" style="position: relative; overflow: hidden; display: inline-block;">
+                                    <span id="fileNameLabel" style="color:#888">Upload Here</span>
+                                    @Html.TextBoxFor(model => model.CustomerEntity.FileBase, new { type = "file", id = "fileInput", style = "position: absolute; font-size: 100px; opacity: 0; right: 0; top: 0; cursor: pointer;", onchange = "displayFileName(this)" })
+                                </label>
+
+                                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+                                <script>
+                                    function displayFileName(input) {
+                                        var fileName = input.files[0].name;
+                                        $("#fileNameLabel").text(fileName);
+                                    }
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="labels"> Phone Number</label>
+                                @Html.TextBoxFor(model => model.CustomerEntity.PhoneNo, new { @class = "form-control", type = "text", placeholder = "09-xxxxxxxxx" })
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels"> Address</label>
+                                @Html.TextAreaFor(model => model.CustomerEntity.Address, new { @class = "form-control", type = "text", placeholder = "No.123, Rose Street Yangon" })
+                            </div>
+                        </div>
+
+                        <div class="row mt-3" id="chkBlackList">
+                            <div class="col-md-6">
+
+                                @Html.CheckBoxFor(model => model.CustomerEntity.IsBlackListed) <label>Add To Black List</label>
+                            </div>
+
+                            <div class="mt-3">
+                                <label>Black List Remark</label>
+                                @Html.TextAreaFor(model => model.CustomerEntity.BlackListedRemarks, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="mt-5 "><button class="save-btn" type="submit" id="Update">Save Profile</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var userID = $('#userID').val();
+
+        if (userID.startsWith("S")) {
+            $('#chkBlackList').show();
+        } else {
+            $('#chkBlackList').hide();
+        }
+    });
+</script>
+
+<style>
+
+    .card {
+        background-color: #FAF8F5;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border: 2px solid #F7971C
+    }
+</style>

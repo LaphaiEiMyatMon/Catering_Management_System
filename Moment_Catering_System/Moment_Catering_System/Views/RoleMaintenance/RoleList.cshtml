@@ -1,0 +1,88 @@
+﻿@model Moment_Catering_System.Models.RoleMaintenance
+
+@{
+                /**/
+
+                ViewBag.Title = "RoleList";
+                Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link rel="stylesheet" href="~/Style/StylesforList.css">
+<script src="~/Scripts/confirmation.js"></script>
+<div class="content-wrapper">
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- Main row -->
+            <div class="row">
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="m-0 title">Role List</h2>
+                                <hr />
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    RoleID
+                                                </th>
+                                                <th>
+                                                    RoleName
+                                                </th>
+                                                <th>
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var data in Model.RoleList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.RoleID)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => data.RoleName)
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="/RoleMaintenance/EditRole?roleID=@data.RoleID">
+                                                            <i class="fa fa-edit edit-icon" style="font-size:15.5px;color:forestgreen"></i>
+                                                        </a>
+
+                                                        <i class="fas fa-trash-alt delete-icon" style="font-size:15.5px;color:red" onclick="deleteConfirm(event, '/RoleMaintenance/DeleteRole?roleID=@data.RoleID')"></i>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="CreateRole" class="save-btn" style="float:right">Add New Role</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

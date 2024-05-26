@@ -1,0 +1,41 @@
+﻿@model Moment_Catering_System.Models.RoleMaintenance
+@{
+    ViewBag.Title = "CreateRole";
+    Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/Style/styles.css">
+
+
+
+
+<div class="container mt-5 d-flex justify-content-center">
+    <form action="CreateRole" method="post" id="CreateForm">
+        <div class="card p-5">
+            <h5 class="title" style=" color: #e7604a;">Add New Role</h5>
+            @Html.HiddenFor(model => model.RoleEntity.RoleID)
+            <div class="pt-4">
+                <label class="d-flex justify-content-between"> <span class="label-text label-text-cc-number">Role Name</span></label>
+                @Html.TextBoxFor(model => model.RoleEntity.RoleName, new { @class = "form-control name-textbox", placeholder = "", maxlength = "19", required = "required" })
+                @Html.ValidationMessageFor(model => model.RoleEntity.RoleName, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="d-flex justify-content-between pt-5 align-items-center">
+                <a href="RoleList" class="cancel-btn">Back</a>
+                <button type="submit" class="save-btn" id="Save">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+    <script src="~/Scripts/confirmation.js"></script>
+
+
+
+
+
+
+
+

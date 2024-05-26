@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Online Catering System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container-fq {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item {
+            margin-bottom: 30px;
+        }
+
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 10px;
+        }
+        hr {
+            color: #e44c33;
+        }
+        h1 {
+            color: #e44c33;
+        }
+        h5 {
+            color: #e44c33;
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <br /><br /><br />
+                <div class="container-fq">
+                    <h1>Frequently Asked Questions</h1> <br />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer1')">
+                            <h5>1. How do I place an order?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer1" class="faq-answer">
+                            <p>To place an order, simply navigate to our website and browse through our catering menu. Select the items you'd like to order and add them to your cart. Proceed to checkout, where you'll provide necessary details such as event date, time, location, and any specific instructions. Once confirmed, your order will be processed.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer2')">
+                            <h5>2. What types of events do you cater to?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer2" class="faq-answer">
+                            <p>We cater to a wide range of events, including weddings, corporate meetings, birthdays, anniversaries, parties, and more. Whether it's a small gathering or a large-scale event, we have the expertise and resources to accommodate your needs.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer3')">
+                            <h5>3. How far in advance should I place my order?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer3" class="faq-answer">
+                            <p>We recommend placing your order at least 72 hours in advance to ensure availability and ample preparation time. However, we understand that last-minute events may arise, so feel free to contact us, and we'll do our best to accommodate your request.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer4')">
+                            <h5>4. Can I customize my order to accommodate dietary restrictions or preferences?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer4" class="faq-answer">
+                            <p>Absolutely! We offer customization options to accommodate various dietary restrictions, including vegetarian, vegan, gluten-free, and other specific preferences. Simply inform us of your requirements while placing your order, and we'll tailor our offerings accordingly.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer5')">
+                            <h5>5. Is delivery available, and what are the associated costs?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer5" class="faq-answer">
+                            <p>Yes, we offer delivery services for your convenience. Delivery fees may vary depending on the distance and size of your order. During the checkout process, you'll be provided with delivery options and associated costs based on your location.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer6')">
+                            <h5>6. What happens if I need to modify or cancel my order?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer6" class="faq-answer">
+                            <p>If you need to modify or cancel your order, please contact us as soon as possible. We'll do our best to accommodate any changes, depending on the lead time and preparation stage of your order. Please note that cancellations made within a certain timeframe may be subject to a cancellation fee.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer7')">
+                            <h5>7. Do you provide utensils, servingware, and setup services?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer7" class="faq-answer">
+                            <p>Yes, we offer optional utensils, servingware, and setup services to ensure your event runs smoothly. These additional services can be selected during the checkout process for added convenience.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer8')">
+                            <h5>8. How do I pay for my order?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer8" class="faq-answer">
+                            <p>We accept various payment methods, including credit/debit cards, online payment platforms, and bank transfers. Payment is required in full at the time of placing your order to confirm the booking.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer9')">
+                            <h5>9. What measures do you take to ensure food safety and hygiene?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer9" class="faq-answer">
+                            <p>Food safety and hygiene are our top priorities. We adhere to strict sanitation practices throughout the food preparation and delivery process, following industry standards and regulations. Our team is trained in proper handling procedures to ensure the highest level of safety for our customers.</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer('answer10')">
+                            <h5>10. Can I speak with a catering specialist for personalized assistance?</h5>
+                            <div>&#9660;</div>
+                        </div>
+                        <div id="answer10" class="faq-answer">
+                            <p>Absolutely! If you have specific questions or require personalized assistance with your catering needs, feel free to reach out to our dedicated catering specialists. You can contact us via phone, email, or through our website, and we'll be happy to assist you.</p>
+                        </div>
+                    </div>
+                </div>
+
+    <script>
+        function toggleAnswer(answerId) {
+            var answer = document.getElementById(answerId);
+            if (answer.style.display === "none") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

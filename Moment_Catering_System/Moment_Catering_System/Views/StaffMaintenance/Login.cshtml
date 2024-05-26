@@ -1,0 +1,42 @@
+﻿@model Moment_Catering_System.Models.StaffMaintenance
+<link rel="stylesheet" href="~/Style/styles.css">
+<br />
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card p-5">
+        <h5 class="title">Login Here</h5>
+        <form class="form-inline" action="/StaffMaintenance/Login" method="post">
+            <div class="pt-4">
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.StaffEntity.StaffID, new { @class = "form-control name-textbox", placeholder = "Enter Your ID", maxlength = "19" })
+                @Html.ValidationMessageFor(model => model.StaffEntity.StaffID, "", new { @class = "text-danger" })
+            </div>
+            <div class="pt-4">
+                @Html.PasswordFor(model => model.StaffEntity.Password, new { @class = "form-control name-textbox", placeholder = "Enter Password", maxlength = "19" })
+                @Html.ValidationMessageFor(model => model.StaffEntity.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="d-flex justify-content-between pt-4 align-items-center">
+
+                <a href="#" class="cancel-btn" style="text-decoration:none">Back</a>
+                <button type="submit" class="save-btn" style="margin-right:25px">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
+
+@if (ViewBag.Message != null)
+{
+
+        <script type="text/javascript">
+        Swal.fire({
+            title: "Oops...",
+            text: "@(ViewBag.Message)",
+            icon: "error"
+        });
+        </script>
+}
+

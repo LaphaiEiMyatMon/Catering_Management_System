@@ -1,0 +1,183 @@
+﻿
+@model Moment_Catering_System.Models.OrderManagement
+@using Moment_Catering_System.Models
+
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<div class="container rounded bg-white mt-5 mb-5">
+  
+       
+        <div class="card">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        
+                        <h5> Your Order</h5>
+
+                        <div class="row">
+                            <div class="pt-3">
+                                <label>OrderID:</label> @Html.DisplayFor(model => Model.OrderEntity.OrderID)
+                            </div>
+
+                            <div class="pt-3">
+                                <label>Selected Menu:</label> @Html.DisplayFor(model => Model.OrderEntity.MenuEntity.MenuName)
+                            </div>
+
+                            <div class="pt-3">
+                                <label>Included Courses:</label>
+                                <ol>
+                                    @foreach (var data in Model.DishList)
+                                    {
+                                        <li>@data.DishName</li>
+                                    }
+                                </ol>
+
+                            </div>
+                            <div class="pt-3">
+                                <label>Per Pax Price $:</label> @Html.DisplayFor(model => Model.OrderEntity.MenuEntity.UnitPrice)
+                            </div>
+
+                            <div class="pt-3">
+                                <label>Selected Pax:</label> @Html.DisplayFor(model => Model.OrderEntity.DishQuantity)
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="col-sm">
+                        <h5>Extra Dish Info</h5>
+                        <div class="pt-3">
+                            <table cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <th>Dish Name</th>
+
+                                        <th>Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var data in Model.ExtraDishList)
+                                    {
+                                        <tr>
+                                            <td>@data.DishName</td>
+                                            <td>@data.Qty</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5">
+                        <h5>Delivery Info</h5>
+
+                        <div class="pt-3">
+                            <label>Delivery Date:</label> @Html.DisplayFor(model => Model.OrderEntity.Date)
+                        </div>
+
+                        <div class="pt-3">
+                            <label>Delivery Time:</label> @Html.DisplayFor(model => Model.OrderEntity.DeliveryTime)
+
+                        </div>
+
+                        <div class="pt-3">
+                            <label>Delivery Address:</label> @Html.DisplayFor(model => Model.OrderEntity.DeliveryAddress)
+
+                        </div>
+
+                        <div class="pt-3">
+                            <label>Phone No:</label> @Html.DisplayFor(model => Model.OrderEntity.CustomerEntity.PhoneNo)
+                        </div>
+
+                        <div class="pt-3">
+                            <label>Note:</label> @Html.DisplayFor(model => Model.OrderEntity.Note)
+                        </div>
+                        <hr />
+                        <h5>Payment Info</h5>
+                        <div class="pt-3">
+                            <label>Total Amount $:</label>  @Html.DisplayFor(model => Model.OrderEntity.TotalAmount)
+                        </div>
+
+                        <div class="pt-3">
+                            <label>Discount:</label>  @Html.DisplayFor(model => Model.OrderEntity.Discount)
+                        </div>
+                        <div class="pt-3">
+                            <label>Selected Payment Method:</label>  @Html.DisplayFor(model => Model.OrderEntity.PaymentMethodEntity.PaymentMethod)
+
+                        </div>
+
+                        <div class="pt-3" id="payment">
+                            <label>Payment Status:</label> @Html.DisplayFor(model => Model.PaymentEntity.Status)
+                            <a href="/PaymentMaintenance/DisplayPaymentMethods?paymentId=@Model.PaymentEntity.PaymentID" class="save-btn" style="text-decoration:none" id="aPayment">Pay Now</a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-2">
+                        <h5>Order Status</h5>
+                        <div class="pt-1">
+                            <label>@Model.OrderEntity.Status</label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <a href="CustomerOrderList" style="color:#e44c33">Back</a>
+
+</div>
+
+
+
+
+<style>
+    .card {
+        padding: 20px;
+        background-color: #FAF8F5;
+    }
+
+    h5 {
+        color: #e44c33;
+    }
+
+    label {
+        font-weight:500;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var status = "@Model.OrderEntity.Status.ToLower()";
+        console.log('Hi status', status);
+
+        if (status == 'approve') {
+            $('#payment').show();
+           
+        var payNow = "@Model.PaymentEntity.Status.ToLower()";
+            if (payNow == 'unpaid') {
+            $('#aPayment').show();
+
+        } else {
+            $('#aPayment').hide();
+        }
+        } else {
+            $('#payment').hide();
+        }
+
+       
+    });
+
+</script>
+
+
+
+
+
+
+

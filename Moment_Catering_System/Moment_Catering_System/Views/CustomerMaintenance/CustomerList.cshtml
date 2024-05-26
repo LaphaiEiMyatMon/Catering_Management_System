@@ -1,0 +1,132 @@
+﻿@model Moment_Catering_System.Models.CustomerMaintenance
+@{
+                /**/
+
+                ViewBag.Title = "CustomerList";
+                Layout = "~/Views/Shared/_sideBar.cshtml";
+}
+
+<link href="~/Style/styleforButton.css" rel="stylesheet" />
+<link href="~/Style/styleforOrderList.css" rel="stylesheet" />
+<div class="content-wrapper">
+    <div class="content-header" style="padding:7px">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="container" style="max-width:1300px">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-color">Customer List</h4>
+                                <fieldset class="pfieldset">
+                                    <legend class="plegend">Search Filter</legend>
+                                    <form action="CustomerList" method="post">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-3">
+                                                            <label>Customer ID</label>
+                                                            @Html.TextBoxFor(model => model.CustomerEntity.CustomerID, new { @class = "form-control", id = "cusID" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label>Name</label>
+                                                            @Html.TextBoxFor(model => model.CustomerEntity.FirstName, new { @class = "form-control", id = "cusName" })
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Status</label>
+                                                            <div class="form-control">
+                                                                @Html.CheckBoxFor(model => model.CustomerEntity.IsActive, new { id = "chkActive" }) <label>Active</label>
+                                                                @Html.CheckBoxFor(model => model.CustomerEntity.IsBlackListed, new { id = "chkBlackList" }) <label>Black List</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4" style="margin-top:47px">
+
+                                                    <button type="submit" class="btn btn-success mr-2" style="font-weight: 600;"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                                    <a href="CustomerList" class="btn list-btn"><i class="fa fa-list" aria-hidden="true"></i> List All</a>
+                                                    <button type="reset" class="btn btn-danger" id="btnClearAll" style="font-weight: 600;"><i class="fa fa-times" aria-hidden="true" style="color:white;"></i> Clear</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <br />
+                                </fieldset>
+
+                                <br />
+                                <p style="font-size:12px">Row count : @Model.CustomerList.Count</p>
+                                <div class="table-responsive" style="overflow-x:auto">
+                                    <div style="overflow-x:auto;">
+                                        <table>
+                                            <tr>
+                                                <th>CustomerID</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Email</th>
+
+                                                <th>Action</th>
+                                            </tr>
+
+                                            @foreach (var data in Model.CustomerList)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => data.CustomerID)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.FirstName)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.LastName)</td>
+                                                    <td>@Html.DisplayFor(modelItem => data.Email)</td>
+
+                                                    <td><a href="EditCustomer?customerID=@data.CustomerID"><i class="fa fa-eye" aria-hidden="true"></i> Detail</a></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!--end table-responsive-->
+                                <hr />
+                                <a href="/CustomerMaintenance/RegisterCustomer" class="save-btn" style="float:right">Create Account</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnClearAll").on("click", function () {
+            // Reset the form fields
+            $("#cusName").val("");
+            $("#cusID").val("");
+
+            $("#chkActive").prop('checked', false);
+            $("#chkBlackList").prop('checked', false);
+
+            // Prevent default form submission behavior
+            return false;
+        });
+    });
+</script>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+        };
+    </script>
+
+}
